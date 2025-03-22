@@ -1,33 +1,140 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Firma from "/public/firma.png";
-import { Instagram } from "lucide-react";
+import { Instagram, Menu, X } from "lucide-react";
 import NavbarButtons from "./NavbarButtons";
 import Link from "next/link";
 
 function Navbar() {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
+    useEffect(() => {
+        if (isMenuOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+        }
+
+        return () => {
+            document.body.style.overflow = "auto";
+        };
+    }, [isMenuOpen]);
+
     return (
-        <div className="p-5 w-full flex items-center md:shadow-lg md:rounded-b px-22">
-            <div className="w-1/4">
-                <Link href="#">
-                    <Image src={Firma} alt="Firma de Claudia Vásquez" className="w-44" />
-                </Link>
+        <>
+            <div className="lg:p-5 w-full flex items-center shadow-lg rounded-b px-4 lg:px-22 py-3 relative z-[60]">
+                <div className="w-1/4">
+                    <Link href="#">
+                        <Image
+                            src={Firma}
+                            alt="Firma de Claudia Vásquez"
+                            className="w-32 lg:w-44"
+                        />
+                    </Link>
+                </div>
+
+                <div className="hidden lg:flex flex-grow justify-center">
+                    <NavbarButtons />
+                </div>
+
+                <div className="w-3/4 lg:w-1/4 flex justify-end items-center">
+                    <a
+                        href="https://www.instagram.com/clauvasquez.art/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mr-4"
+                    >
+                        <Instagram size={32} color="#000000" />
+                    </a>
+                    <button
+                        onClick={toggleMenu}
+                        className="lg:hidden focus:outline-none"
+                        aria-label="Toggle menu"
+                    >
+                        {isMenuOpen ? (
+                            <X size={32} color="#000000" />
+                        ) : (
+                            <Menu size={32} color="#000000" />
+                        )}
+                    </button>
+                </div>
             </div>
-            
-            <div className="flex-grow flex justify-center">
-                <NavbarButtons />
+
+            {isMenuOpen && (
+                <div className="fixed inset-0 bg-white z-50 lg:hidden overflow-y-auto pt-20">
+                    <div className="px-4 py-2">
+                        <MobileNavMenu closeMenu={() => setIsMenuOpen(false)} />
+                    </div>
+                </div>
+            )}
+        </>
+    );
+}
+
+function MobileNavMenu({ closeMenu }: { closeMenu: () => void }) {
+    return (
+        <div className="flex flex-col space-y-4">
+            <div className="border-b pb-2">
+                <h3 className="font-medium mb-2">Portfolio</h3>
+                <ul className="ml-4 space-y-4">
+                    <li>
+                        <Link
+                            href="#"
+                            onClick={closeMenu}
+                            className="block py-2 hover:text-claudiapurple transition duration-300"
+                        >
+                            Conexiones Lineales
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            href="#"
+                            onClick={closeMenu}
+                            className="block py-2 hover:text-claudiapurple transition duration-300"
+                        >
+                            Materia Convergente
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            href="#"
+                            onClick={closeMenu}
+                            className="block py-2 hover:text-claudiapurple transition duration-300"
+                        >
+                            Ventanas
+                        </Link>
+                    </li>
+                </ul>
             </div>
-            
-            <div className="w-1/4 flex justify-end">
-                <a
-                    href="https://www.instagram.com/clauvasquez.art/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <Instagram size={40} color="#000000" />
-                </a>
-            </div>
+
+            <Link
+                href="#"
+                onClick={closeMenu}
+                className="block py-2 hover:text-claudiapurple transition duration-300"
+            >
+                Bio
+            </Link>
+
+            <Link
+                href="#"
+                onClick={closeMenu}
+                className="block py-2 hover:text-claudiapurple transition duration-300"
+            >
+                Expos
+            </Link>
+
+            <Link
+                href="#"
+                onClick={closeMenu}
+                className="block py-2 hover:text-claudiapurple transition duration-300"
+            >
+                Disponibles
+            </Link>
         </div>
     );
 }

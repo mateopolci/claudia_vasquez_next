@@ -4,7 +4,7 @@ import { Phone, Instagram } from "lucide-react";
 
 function Footer() {
     return (
-        <div className="flex flex-col justify-center items-center p-5 text-center bg-gray-100 px-20">
+        <div className="flex flex-col justify-center items-center p-5 text-center bg-gray-100 px-20 w-full">
             <div className="flex justify-center items-center">
                 <div className="flex">
                     <Phone/>
