@@ -5,9 +5,9 @@ import { Phone, Instagram } from "lucide-react";
 function Footer() {
     return (
         <div className="flex flex-col justify-center items-center p-5 text-center bg-gray-100 px-20 w-full">
-            <div className="flex justify-center items-center">
-                <div className="flex">
-                    <Phone/>
+            <div className="flex justify-center items-center footerText">
+                <div className="flex justify-center items-center">
+                    <Phone className="footerIcons"/>
                     <p className="pl-2">+54 9 11 6851 3268</p>
                 </div>
                 <div className="px-5">
@@ -19,15 +19,15 @@ function Footer() {
                         className="w-12 h-12"
                     />
                 </div>
-                <div className="flex">
-                    <Instagram />
+                <div className="flex justify-center items-center">
+                    <Instagram className="footerIcons" />
                     <p className="pl-2">claudiavasquez.art</p>
                 </div>
             </div>
             <div className="w-full">
                 <hr className="border-black-300 w-full my-3" />
             </div>
-            <div className="text-center">
+            <div className="text-center footerText">
                 <p>© Claudia Vásquez</p>
             </div>
         </div>

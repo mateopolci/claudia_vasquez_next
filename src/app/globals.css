@@ -61,3 +61,19 @@ body {
     box-shadow: 2px 2px 3px #999;
     z-index: 100;
 }
+
+@media (max-width: 768px) {
+    /* Responsive Whatsapp icon */
+    .floatBottomRight {
+        bottom: 20px;
+        right: 20px;
+    }
+    /* Responsive Footer */
+    .footerText {
+        font-size: 12px;
+    }
+    .footerIcons{
+        width:15px;
+        height:15px;
+    }
+}
