@@ -5,7 +5,7 @@ import Firma from "/public/firma.png";
 import { Instagram, Menu, X } from "lucide-react";
 import NavbarButtons from "./NavbarButtons";
 import Link from "next/link";
-
+import { useCategories } from "../hooks/useCategories";
 function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -29,7 +29,7 @@ function Navbar() {
         <>
             <div className="lg:p-5 w-full flex items-center shadow-lg rounded-b px-4 lg:px-22 py-3 relative z-[60]">
                 <div className="w-1/4">
-                    <Link href="#">
+                    <Link href="/">
                         <Image
                             src={Firma}
                             alt="Firma de Claudia Vásquez"
@@ -77,43 +77,42 @@ function Navbar() {
 }
 
 function MobileNavMenu({ closeMenu }: { closeMenu: () => void }) {
+    const { categories, loading, error, fetchCategories } = useCategories();
+
+    // Fetch categories when the mobile menu opens
+    useEffect(() => {
+        fetchCategories();
+    }, [fetchCategories]);
+
     return (
         <div className="flex flex-col space-y-4">
             <div className="border-b pb-2">
                 <h3 className="font-medium mb-2">Portfolio</h3>
                 <ul className="ml-4 space-y-4">
-                    <li>
-                        <Link
-                            href="#"
-                            onClick={closeMenu}
-                            className="block py-2 hover:text-claudiapurple transition duration-300"
-                        >
-                            Conexiones Lineales
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            href="#"
-                            onClick={closeMenu}
-                            className="block py-2 hover:text-claudiapurple transition duration-300"
-                        >
-                            Materia Convergente
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            href="#"
-                            onClick={closeMenu}
-                            className="block py-2 hover:text-claudiapurple transition duration-300"
-                        >
-                            Ventanas
-                        </Link>
-                    </li>
+                    {loading && <li className="py-2">Cargando categorías...</li>}
+                    
+                    {error && (
+                        <li className="py-2 text-red-500">
+                            Error al cargar las categorías
+                        </li>
+                    )}
+                    
+                    {!loading && !error && categories.map((category) => (
+                        <li key={category.id}>
+                            <Link
+                                href={`/portfolio/${category.documentId}`}
+                                onClick={closeMenu}
+                                className="block py-2 hover:text-claudiapurple transition duration-300"
+                            >
+                                {category.name}
+                            </Link>
+                        </li>
+                    ))}
                 </ul>
             </div>
 
             <Link
-                href="#"
+                href="/bio"
                 onClick={closeMenu}
                 className="block py-2 hover:text-claudiapurple transition duration-300"
             >
@@ -121,7 +120,7 @@ function MobileNavMenu({ closeMenu }: { closeMenu: () => void }) {
             </Link>
 
             <Link
-                href="#"
+                href="/expos"
                 onClick={closeMenu}
                 className="block py-2 hover:text-claudiapurple transition duration-300"
             >
@@ -129,7 +128,7 @@ function MobileNavMenu({ closeMenu }: { closeMenu: () => void }) {
             </Link>
 
             <Link
-                href="#"
+                href="/disponibles"
                 onClick={closeMenu}
                 className="block py-2 hover:text-claudiapurple transition duration-300"
             >
