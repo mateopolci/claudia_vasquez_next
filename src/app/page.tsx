@@ -2,6 +2,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Whatsapp from "./components/Whatsapp";
 import Grid from "./components/Grid";
+import PageNavigation from "./components/PageNavigation";
 import { Montserrat } from "next/font/google";
 
 const montserrat = Montserrat({
@@ -16,6 +17,7 @@ export default function Home() {
 				<Navbar />
             	<Whatsapp />
             	<Grid />
+                <PageNavigation />
             	<Footer />
 			</div>
         </main>

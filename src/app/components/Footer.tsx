@@ -20,8 +20,8 @@ function Footer() {
                     />
                 </div>
                 <div className="flex justify-center items-center">
+                    <p className="pr-2">claudiavasquez.art</p>
                     <Instagram className="footerIcons" />
-                    <p className="pl-2">claudiavasquez.art</p>
                 </div>
             </div>
             <div className="w-full">

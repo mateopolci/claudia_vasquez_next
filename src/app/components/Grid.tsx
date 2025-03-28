@@ -67,14 +67,14 @@ function Grid() {
     if (artworks.length === 0) return <div>No artworks found</div>;
 
     return (
-        <div className="px-22">
+        <div className="p-22">
             <ul
                 role="list"
                 className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
             >
                 {artworks.map((artwork) => (
                     <li key={artwork.id} className="relative">
-						<div className="group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
+						<div className="group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 overflow-hidden">
 							<img
 								src={artwork.image.url}
 								alt={
