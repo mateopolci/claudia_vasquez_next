@@ -47,12 +47,13 @@ body {
     }
 }
 
+/* Whatsapp */
 .floatBottomRight {
     position: fixed;
-    width: 60px;
-    height: 60px;
-    bottom: 40px;
-    right: 40px;
+    width: 50px;
+    height: 50px;
+    bottom: 20px;
+    right: 20px;
     background-color: #25d366;
     color: #fff;
     border-radius: 50px;
@@ -61,6 +62,49 @@ body {
     box-shadow: 2px 2px 3px #999;
     z-index: 100;
 }
+
+/* Scroll to top */
+.button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgb(20, 20, 20);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 0px 4px rgba(180, 160, 255, 0.253);
+    cursor: pointer;
+    overflow: hidden;
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    /* Acortar la duración de la transición para hacerla más suave */
+    transition: opacity 0.3s ease, transform 0.3s ease, border-radius 0.3s ease, background-color 0.3s ease;
+}
+
+.button.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.svgIcon {
+    width: 12px;
+    transition-duration: 0.3s;
+}
+
+.svgIcon path {
+    fill: white;
+}
+
+.button:hover {
+    border-radius: 50px;
+    transition-duration: 0.3s;
+    background-color: rgb(181, 160, 255);
+    align-items: center;
+}
+
 
 @media (max-width: 768px) {
     /* Responsive Whatsapp icon */
@@ -72,10 +116,9 @@ body {
     .footerText {
         font-size: 12px;
     }
-    .footerIcons{
-        width:15px;
-        height:15px;
+    .footerIcons {
+        width: 15px;
+        height: 15px;
     }
     /* Disable hovers on mobile */
-    
 }

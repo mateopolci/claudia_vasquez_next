@@ -3,6 +3,7 @@ import Footer from "./components/Footer";
 import Whatsapp from "./components/Whatsapp";
 import Grid from "./components/Grid";
 import PageNavigation from "./components/PageNavigation";
+import ScrollToTop from "./components/ScrollToTop";
 import { Montserrat } from "next/font/google";
 
 const montserrat = Montserrat({
@@ -16,8 +17,9 @@ export default function Home() {
             <div className="flex flex-col justify-between min-h-screen items-center">
 				<Navbar />
             	<Whatsapp />
+            	<ScrollToTop />
             	<Grid />
-                <PageNavigation />
+                <PageNavigation pagination={null} />
             	<Footer />
 			</div>
         </main>
