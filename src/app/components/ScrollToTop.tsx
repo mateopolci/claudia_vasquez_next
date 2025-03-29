@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 
 function ScrollToTop() {
     const [scrollProgress, setScrollProgress] = useState(0);
-    const startShowingAt = 25; // Empezar a mostrar gradualmente desde 25%
+    const startShowingAt = 25; // Empieza en 25%
     const fullyVisibleAt = 35; // Totalmente visible al 35%
 
     const handleScroll = () => {
@@ -29,17 +29,14 @@ function ScrollToTop() {
         };
     }, []);
 
-    // Calcular la opacidad basada en el progreso de scroll
+    // Calculo de opacidad basada en el progreso de scroll
     const calculateOpacity = () => {
         if (scrollProgress <= startShowingAt) return 0;
         if (scrollProgress >= fullyVisibleAt) return 1;
         
-        // Calcular opacidad proporcional entre startShowingAt y fullyVisibleAt
         return (scrollProgress - startShowingAt) / (fullyVisibleAt - startShowingAt);
     };
 
-    // Siempre mantenemos el botón en el DOM pero controlamos su opacidad
-    // No usamos 'visibility' porque causa transiciones abruptas
     const buttonStyle = {
         opacity: calculateOpacity(),
         pointerEvents: scrollProgress > startShowingAt ? 'auto' : 'none',

@@ -79,7 +79,6 @@ body {
     position: fixed;
     bottom: 20px;
     left: 20px;
-    /* Acortar la duración de la transición para hacerla más suave */
     transition: opacity 0.3s ease, transform 0.3s ease, border-radius 0.3s ease, background-color 0.3s ease;
 }
 
@@ -120,5 +119,5 @@ body {
         width: 15px;
         height: 15px;
     }
-    /* Disable hovers on mobile */
+    /*TO-DO Disable hovers on mobile */
 }
