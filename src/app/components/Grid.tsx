@@ -86,16 +86,8 @@ function Grid() {
                                         artwork.image.alternativeText ||
                                         artwork.name
                                     }
-                                    className="object-cover pointer-events-none group-hover:scale-110 transition duration-300"
+                                    className="object-cover group-hover:scale-110 transition duration-300 cursor-pointer"
                                 />
-                                <button
-                                    type="button"
-                                    className="absolute inset-0 focus:outline-none"
-                                >
-                                    <span className="sr-only">
-                                        View details for {artwork.name}
-                                    </span>
-                                </button>
                             </div>
                             <p className="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">
                                 {artwork.name}

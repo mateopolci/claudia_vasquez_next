@@ -87,7 +87,7 @@ function MobileNavMenu({ closeMenu }: { closeMenu: () => void }) {
     return (
         <div className="flex flex-col space-y-4">
             <div className="border-b pb-2">
-                <h3 className="font-medium mb-2">Portfolio</h3>
+                <Link href="/" className="font-medium mb-2 z-10">Portfolio</Link>
                 <ul className="ml-4 space-y-4">
                     {loading && <li className="py-2">Cargando categorías...</li>}
                     
@@ -120,7 +120,7 @@ function MobileNavMenu({ closeMenu }: { closeMenu: () => void }) {
             </Link>
 
             <Link
-                href="/expos"
+                href="/expo"
                 onClick={closeMenu}
                 className="block py-2 hover:text-claudiapurple transition duration-300"
             >

@@ -28,7 +28,7 @@ function NavbarButtons() {
                         onMouseLeave={handleMouseLeave}
                     >
                         <Link
-                            href="#"
+                            href="/"
                             className="flex justify-between lg:inline-flex py-4 px-2 mx-2 items-center hover:bg-gray-50 space-x-2"
                         >
                             <span>Portfolio</span>
@@ -73,7 +73,7 @@ function NavbarButtons() {
                     </li>
                     <li>
                         <Link
-                            href="#"
+                            href="/bio"
                             className="flex lg:inline-flex py-4 px-2 mx-2 items-center hover:bg-gray-50"
                         >
                             <span>Bio</span>
@@ -81,7 +81,7 @@ function NavbarButtons() {
                     </li>
                     <li>
                         <Link
-                            href="#"
+                            href="/expo"
                             className="flex lg:inline-flex py-4 px-2 mx-2 items-center hover:bg-gray-50"
                         >
                             <span>Expos</span>
@@ -89,7 +89,7 @@ function NavbarButtons() {
                     </li>
                     <li>
                         <Link
-                            href="#"
+                            href="/disponible"
                             className="flex lg:inline-flex py-4 px-2 mx-2 items-center hover:bg-gray-50"
                         >
                             <span>Disponibles</span>

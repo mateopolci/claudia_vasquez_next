@@ -73,7 +73,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0px 0px 0px 4px rgba(180, 160, 255, 0.253);
+    box-shadow: 0px 0px 0px 4px rgba(90, 75, 246, 0.2);
     cursor: pointer;
     overflow: hidden;
     position: fixed;
@@ -100,7 +100,7 @@ body {
 .button:hover {
     border-radius: 50px;
     transition-duration: 0.3s;
-    background-color: rgb(181, 160, 255);
+    background-color: rgb(90, 75, 246);
     align-items: center;
 }
 
