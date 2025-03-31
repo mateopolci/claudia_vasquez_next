@@ -36,7 +36,7 @@ function Grid() {
 
     const domain = "http://localhost:1337/";
     const gridPopulate =
-        `api/artworks?fields[0]=id&fields[1]=documentId&fields[2]=name&fields[3]=support&fields[4]=size&populate=image&pagination[page]=${currentPage}&pagination[pageSize]=25`;
+        `api/artworks?fields[0]=id&fields[1]=documentId&fields[2]=name&fields[3]=support&fields[4]=size&populate=image&pagination[page]=${currentPage}&pagination[pageSize]=25&sort=year:desc`;
     const gridEndpoint = `${domain}${gridPopulate}`;
 
     useEffect(() => {
