@@ -25,7 +25,12 @@ interface PaginationData {
     total: number;
 }
 
-function Grid() {
+interface GridProps {
+    endpoint: string;
+    title?: string;
+}
+
+function Grid({ endpoint, title = "Portfolio" }: GridProps) {
     const [artworks, setArtworks] = useState<Artwork[]>([]);
     const [pagination, setPagination] = useState<PaginationData | null>(null);
     const [loading, setLoading] = useState(true);
@@ -35,15 +40,14 @@ function Grid() {
     const currentPage = Number(searchParams.get('page') || 1);
 
     const domain = "http://localhost:1337/";
-    const gridPopulate =
-        `api/artworks?fields[0]=id&fields[1]=documentId&fields[2]=name&fields[3]=support&fields[4]=size&populate[image][fields][0]=url&populate[image][fields][1]=alternativeText&pagination[page]=${currentPage}&pagination[pageSize]=25&sort=year:desc`;
-    const gridEndpoint = `${domain}${gridPopulate}`;
+    // Add pagination parameters to the provided endpoint
+    const fullEndpoint = `${domain}${endpoint}${endpoint.includes('?') ? '&' : '?'}pagination[page]=${currentPage}&pagination[pageSize]=25`;
 
     useEffect(() => {
         async function fetchArtworks() {
             try {
                 setLoading(true);
-                const response = await fetch(gridEndpoint);
+                const response = await fetch(fullEndpoint);
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
@@ -64,7 +68,7 @@ function Grid() {
         }
 
         fetchArtworks();
-    }, [gridEndpoint, currentPage]);
+    }, [fullEndpoint, currentPage]);
 
     if (loading) return <div>Loading artworks...</div>;
     if (error) return <div>Error loading artworks: {error}</div>;
@@ -73,7 +77,7 @@ function Grid() {
     return (
         <div>
             <div className="w-full flex justify-center items-center">
-                <h1 className="text-3xl font-bold mt-8">Portfolio</h1>
+                <h1 className="text-3xl font-bold mt-8">{title}</h1>
             </div>
             <div className="p-22">
                 <ul

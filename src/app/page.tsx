@@ -12,11 +12,13 @@ const montserrat = Montserrat({
     weight: ["400", "700"],
 });
 
-export default function Home({ searchParams }: { searchParams: { page?: string } }) {
-    // Determinar la página actual
+export default function Home({
+    searchParams,
+}: {
+    searchParams: { page?: string };
+}) {
     const currentPage = searchParams.page ? parseInt(searchParams.page) : 1;
-    
-    // Mostrar Banner solo en la primera página
+
     const isFirstPage = currentPage === 1;
 
     return (
@@ -26,7 +28,10 @@ export default function Home({ searchParams }: { searchParams: { page?: string }
                 <Whatsapp />
                 <ScrollToTop />
                 {isFirstPage && <Banner />}
-                <Grid />
+                <Grid
+                    endpoint="api/artworks?fields[0]=id&fields[1]=documentId&fields[2]=name&fields[3]=support&fields[4]=size&populate[image][fields][0]=url&populate[image][fields][1]=alternativeText&sort=year:desc"
+                    title="Portfolio"
+                />
                 <PageNavigation pagination={null} />
                 <Footer />
             </div>
