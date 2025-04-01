@@ -79,7 +79,6 @@ function Navbar() {
 function MobileNavMenu({ closeMenu }: { closeMenu: () => void }) {
     const { categories, loading, error, fetchCategories } = useCategories();
 
-    // Fetch categories when the mobile menu opens
     useEffect(() => {
         fetchCategories();
     }, [fetchCategories]);

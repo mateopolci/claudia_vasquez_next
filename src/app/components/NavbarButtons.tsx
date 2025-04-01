@@ -8,7 +8,6 @@ function NavbarButtons() {
     const { categories, loading, error, fetchCategories } = useCategories();
     const [isHovering, setIsHovering] = useState(false);
 
-    // Initialize fetch when hovering for the first time
     const handleMouseEnter = () => {
         setIsHovering(true);
         fetchCategories();

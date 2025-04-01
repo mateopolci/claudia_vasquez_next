@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 
 function ScrollToTop() {
     const [scrollProgress, setScrollProgress] = useState(0);
-    const startShowingAt = 25; // Empieza en 25%
+    const startShowingAt = 25; // Empieza en 25
     const fullyVisibleAt = 35; // Totalmente visible al 35%
 
     const handleScroll = () => {
