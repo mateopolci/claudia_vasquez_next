@@ -43,7 +43,6 @@ export default async function Expo() {
 
     const { details, expo1, expo2 } = expoData.data;
     
-    // Dividir los detalles en dos columnas de manera equilibrada
     const halfLength = Math.ceil(details.length / 2);
     const firstHalf = details.slice(0, halfLength);
     const secondHalf = details.slice(halfLength);
@@ -58,8 +57,7 @@ export default async function Expo() {
                 <div className="container mx-auto py-12 px-22">
                     <h1 className="text-3xl font-bold mb-8">Exposiciones</h1>
 
-                    {/* Primera sección: Primera mitad del texto e imagen 1 */}
-                    <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6 ">
                         <div>
                             {firstHalf.map((paragraph, index) => (
                                 <p key={index} className="mb-4 text-lg">
@@ -71,7 +69,7 @@ export default async function Expo() {
                         </div>
                         
                         {expo1 && (
-                            <div className="relative w-full h-80 md:h-full min-h-[300px]">
+                            <div className="relative w-full min-h-96 md:h-full">
                                 <Image 
                                     src={expo1.url}
                                     alt="Exhibición de arte 1"
@@ -83,10 +81,9 @@ export default async function Expo() {
                         )}
                     </div>
                     
-                    {/* Segunda sección: Segunda mitad del texto e imagen 2 */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {expo2 && (
-                            <div className="relative w-full h-80 md:h-full min-h-[300px] order-2 md:order-1">
+                            <div className="relative w-full min-h-96 md:h-full order-2 md:order-1">
                                 <Image 
                                     src={expo2.url}
                                     alt="Exhibición de arte 2"
