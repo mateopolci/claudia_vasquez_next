@@ -36,7 +36,7 @@ function Grid() {
 
     const domain = "http://localhost:1337/";
     const gridPopulate =
-        `api/artworks?fields[0]=id&fields[1]=documentId&fields[2]=name&fields[3]=support&fields[4]=size&populate=image&pagination[page]=${currentPage}&pagination[pageSize]=25&sort=year:desc`;
+        `api/artworks?fields[0]=id&fields[1]=documentId&fields[2]=name&fields[3]=support&fields[4]=size&populate[image][fields][0]=url&populate[image][fields][1]=alternativeText&pagination[page]=${currentPage}&pagination[pageSize]=25&sort=year:desc`;
     const gridEndpoint = `${domain}${gridPopulate}`;
 
     useEffect(() => {
@@ -72,6 +72,9 @@ function Grid() {
 
     return (
         <div>
+            <div className="w-full flex justify-center items-center">
+                <h1 className="text-3xl font-bold mt-8">Portfolio</h1>
+            </div>
             <div className="p-22">
                 <ul
                     role="list"
