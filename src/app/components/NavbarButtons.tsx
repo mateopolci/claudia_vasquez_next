@@ -29,7 +29,7 @@ function NavbarButtons() {
                     >
                         <Link
                             href="/"
-                            className="flex justify-between lg:inline-flex py-4 px-2 mx-2 items-center hover:bg-gray-50 space-x-2"
+                            className="flex justify-between lg:inline-flex py-4 px-2 mx-2 items-center hover:text-claudiapurple space-x-2"
                         >
                             <span>Portfolio</span>
                             <svg
@@ -74,7 +74,7 @@ function NavbarButtons() {
                     <li>
                         <Link
                             href="/bio"
-                            className="flex lg:inline-flex py-4 px-2 mx-2 items-center hover:bg-gray-50"
+                            className="flex lg:inline-flex py-4 px-2 mx-2 items-center hover:text-claudiapurple"
                         >
                             <span>Bio</span>
                         </Link>
@@ -82,15 +82,15 @@ function NavbarButtons() {
                     <li>
                         <Link
                             href="/expo"
-                            className="flex lg:inline-flex py-4 px-2 mx-2 items-center hover:bg-gray-50"
+                            className="flex lg:inline-flex py-4 px-2 mx-2 items-center hover:text-claudiapurple"
                         >
                             <span>Expos</span>
                         </Link>
                     </li>
                     <li>
                         <Link
-                            href="/disponible"
-                            className="flex lg:inline-flex py-4 px-2 mx-2 items-center hover:bg-gray-50"
+                            href="/disponibles"
+                            className="flex lg:inline-flex py-4 px-2 mx-2 items-center hover:text-claudiapurple"
                         >
                             <span>Disponibles</span>
                         </Link>
