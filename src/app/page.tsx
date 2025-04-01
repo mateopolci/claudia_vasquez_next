@@ -2,7 +2,6 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Whatsapp from "./components/Whatsapp";
 import Grid from "./components/Grid";
-import PageNavigation from "./components/PageNavigation";
 import ScrollToTop from "./components/ScrollToTop";
 import Banner from "./components/Banner";
 import { Montserrat } from "next/font/google";
@@ -32,7 +31,6 @@ export default function Home({
                     endpoint="api/artworks?fields[0]=id&fields[1]=documentId&fields[2]=name&fields[3]=support&fields[4]=size&populate[image][fields][0]=url&populate[image][fields][1]=alternativeText&sort=year:desc"
                     title="Portfolio"
                 />
-                <PageNavigation pagination={null} />
                 <Footer />
             </div>
         </main>
