@@ -61,9 +61,9 @@ function NavbarButtons() {
                             {!loading && !error && categories.map((category) => (
                                 <li key={category.id} className="px-4 py-2">
                                     <Link
-                                        href={`/series/${category.name}`}
+                                        href={`/${category.name}`} // Quitar el prefijo /series/
                                         className="flex hover:bg-claudiapurple hover:text-claudiawhite p-1 transition duration-300 rounded-xs"
-                                        >
+                                    >
                                         {category.name}
                                     </Link>
                                 </li>
