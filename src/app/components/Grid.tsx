@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import PageNavigation from "./PageNavigation";
 import GridSkeleton from "./GridSkeleton";
+import LightboxModal from "./LightboxModal";
 
 interface Artwork {
     id: number;
@@ -38,7 +39,11 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
     const [loadingImages, setLoadingImages] = useState(true);
     const [renderSkeleton, setRenderSkeleton] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    
+  
+    // Lightbox state
+    const [lightboxOpen, setLightboxOpen] = useState(false);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  
     const searchParams = useSearchParams();
     const currentPage = Number(searchParams.get('page') || 1);
 
@@ -139,6 +144,34 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
         }
     }, [fetchingData, loadingImages]);
 
+    const openLightbox = (index: number) => {
+        setCurrentImageIndex(index);
+        setLightboxOpen(true);
+    };
+
+    const closeLightbox = () => {
+        setLightboxOpen(false);
+    };
+
+    const lightboxImages = artworks.map(artwork => ({
+        url: artwork.image?.url || '',
+        alt: artwork.image?.alternativeText || artwork.name,
+        name: artwork.name,
+        support: artwork.support,
+        size: artwork.size
+    }));
+
+    if (renderSkeleton) {
+        return <GridSkeleton 
+            title={title} 
+            count={pagination?.pageSize || 25} 
+        />;
+    }
+
+    if (error) return <div className="text-center my-8 text-red-500">Error loading artworks: {error}</div>;
+    if (artworks.length === 0) return <div className="text-center my-8">No artworks found</div>;
+
+
     if (renderSkeleton) {
         return <GridSkeleton 
             title={title} 
@@ -159,9 +192,12 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
                     role="list"
                     className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
                 >
-                    {artworks.map((artwork) => (
+                    {artworks.map((artwork, index) => (
                         <li key={artwork.id} className="relative">
-                            <div className="group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 overflow-hidden">
+                            <div 
+                                className="group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 overflow-hidden"
+                                onClick={() => openLightbox(index)}
+                            >
                                 <img
                                     src={artwork.image?.url}
                                     alt={artwork.image?.alternativeText || artwork.name}
@@ -180,6 +216,15 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
             </div>
             
             <PageNavigation pagination={pagination} />
+            
+            {/* Lightbox Modal */}
+            {lightboxOpen && artworks.length > 0 && (
+                <LightboxModal
+                    images={lightboxImages}
+                    currentIndex={currentImageIndex}
+                    onClose={closeLightbox}
+                />
+            )}
         </div>
     );
 }

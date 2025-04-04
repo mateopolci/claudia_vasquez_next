@@ -13,6 +13,7 @@ const montserrat = Montserrat({
 interface TextNode {
     type: string;
     text: string;
+    bold?: boolean;
 }
 
 interface ParagraphChild {
@@ -35,6 +36,23 @@ interface BioData {
     };
 }
 
+function FormattedText({ node }: { node: TextNode }) {
+    if (node.bold) {
+        return <span className="font-bold">{node.text}</span>;
+    }
+    return <span>{node.text}</span>;
+}
+
+function FormattedParagraph({ paragraph }: { paragraph: ParagraphChild }) {
+    return (
+        <p className="mb-2 text-lg">
+            {paragraph.children.map((child, index) => (
+                <FormattedText key={index} node={child} />
+            ))}
+        </p>
+    );
+}
+
 export default async function Bio() {
     const domain = "http://localhost:1337/";
     const bioEndpoint = `${domain}api/bio?fields=biography,art_concept&populate[bio][fields]=id,url&populate[concept][fields]=id,url`;
@@ -44,6 +62,10 @@ export default async function Bio() {
 
     const { biography, art_concept, bio, concept } = bioData.data;
 
+    const halfBiographyLength = Math.ceil(biography.length / 2);
+    const firstHalf = biography.slice(0, halfBiographyLength);
+    const secondHalf = biography.slice(halfBiographyLength);
+
     return (
         <main className={montserrat.className}>
             <div className="flex flex-col justify-between min-h-screen items-center">
@@ -51,24 +73,17 @@ export default async function Bio() {
                 <Whatsapp />
                 <ScrollToTop />
 
-                <div className="container mx-auto py-12 px-22">
+                <div className="container mx-auto py-12 px-4 md:px-8">
                     <h1 className="text-3xl font-bold mb-8">Biografía</h1>
 
                     <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            {biography
-                                .slice(0, Math.ceil(biography.length / 2))
-                                .map((paragraph, index) => (
-                                    <p key={index} className="mb-4 text-lg">
-                                        {paragraph.children.map(
-                                            (child, childIndex) => (
-                                                <span key={childIndex}>
-                                                    {child.text}
-                                                </span>
-                                            )
-                                        )}
-                                    </p>
-                                ))}
+                        <div className="space-y-1">
+                            {firstHalf.map((paragraph, index) => (
+                                <FormattedParagraph 
+                                    key={index} 
+                                    paragraph={paragraph}
+                                />
+                            ))}
                         </div>
 
                         {bio && (
@@ -84,20 +99,13 @@ export default async function Bio() {
                         )}
                     </div>
 
-                    <div className="mb-12">
-                        {biography
-                            .slice(Math.ceil(biography.length / 2))
-                            .map((paragraph, index) => (
-                                <p key={index} className="mb-4 text-lg">
-                                    {paragraph.children.map(
-                                        (child, childIndex) => (
-                                            <span key={childIndex}>
-                                                {child.text}
-                                            </span>
-                                        )
-                                    )}
-                                </p>
-                            ))}
+                    <div className="mb-12 space-y-1">
+                        {secondHalf.map((paragraph, index) => (
+                            <FormattedParagraph
+                                key={index}
+                                paragraph={paragraph}
+                            />
+                        ))}
                     </div>
 
                     <h2 className="text-2xl font-bold mb-6">
@@ -117,17 +125,12 @@ export default async function Bio() {
                             </div>
                         )}
 
-                        <div className="order-1 md:order-2">
+                        <div className="order-1 md:order-2 space-y-1">
                             {art_concept.map((paragraph, index) => (
-                                <p key={index} className="mb-4 text-lg">
-                                    {paragraph.children.map(
-                                        (child, childIndex) => (
-                                            <span key={childIndex}>
-                                                {child.text}
-                                            </span>
-                                        )
-                                    )}
-                                </p>
+                                <FormattedParagraph
+                                    key={index}
+                                    paragraph={paragraph}
+                                />
                             ))}
                         </div>
                     </div>
