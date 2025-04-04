@@ -32,12 +32,11 @@ interface GridProps {
 }
 
 function Grid({ endpoint, title = "Portfolio" }: GridProps) {
-    // Estados separados para diferentes fases de carga
     const [artworks, setArtworks] = useState<Artwork[]>([]);
     const [pagination, setPagination] = useState<PaginationData | null>(null);
-    const [fetchingData, setFetchingData] = useState(true);  // Para la carga de datos API
-    const [loadingImages, setLoadingImages] = useState(true); // Para la carga de imágenes
-    const [renderSkeleton, setRenderSkeleton] = useState(true); // Control explícito del skeleton
+    const [fetchingData, setFetchingData] = useState(true);
+    const [loadingImages, setLoadingImages] = useState(true);
+    const [renderSkeleton, setRenderSkeleton] = useState(true);
     const [error, setError] = useState<string | null>(null);
     
     const searchParams = useSearchParams();
@@ -46,16 +45,11 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
     const domain = "http://localhost:1337/";
     const fullEndpoint = `${domain}${endpoint}${endpoint.includes('?') ? '&' : '?'}pagination[page]=${currentPage}&pagination[pageSize]=25`;
 
-    // Reseteamos estados al cambiar endpoint o página
     useEffect(() => {
-        // Siempre mostrar skeleton al navegar
         setRenderSkeleton(true);
         setFetchingData(true);
         setLoadingImages(true);
-    }, [fullEndpoint, currentPage]);
-
-    // Fetch de datos
-    useEffect(() => {
+        
         async function fetchArtworks() {
             try {
                 const response = await fetch(fullEndpoint);
@@ -69,23 +63,29 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
                 setPagination(data.meta.pagination);
                 setFetchingData(false);
                 
-                // Si no hay datos, podemos omitir la carga de imágenes
                 if (data.data.length === 0) {
                     setLoadingImages(false);
                 }
             } catch (err) {
+                console.error("Error fetching data:", err);
                 setError(err instanceof Error ? err.message : "An unknown error occurred");
                 setFetchingData(false);
-                setLoadingImages(false); // Omitimos la carga de imágenes en caso de error
+                setLoadingImages(false);
             }
         }
         
         fetchArtworks();
-    }, [fullEndpoint]);
+        
+        const safetyTimeout = setTimeout(() => {
+            setRenderSkeleton(false);
+            setLoadingImages(false);
+            setFetchingData(false);
+        }, 8000);
+        
+        return () => clearTimeout(safetyTimeout);
+    }, [fullEndpoint, currentPage]);
 
-    // Precarga de imágenes
     useEffect(() => {
-        // Solo proceder si los datos han sido cargados y hay artworks
         if (!fetchingData && artworks.length > 0 && loadingImages) {
             let loadedCount = 0;
             const totalImages = artworks.length;
@@ -120,23 +120,25 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
             };
 
             preloadImages();
+            
+            const imageTimeout = setTimeout(() => {
+                setLoadingImages(false);
+            }, 5000);
+            
+            return () => clearTimeout(imageTimeout);
         }
     }, [fetchingData, artworks]);
 
-    // Efecto para manejar la transición del skeleton
     useEffect(() => {
-        // Solo ocultar el skeleton cuando las imágenes estén cargadas
         if (!fetchingData && !loadingImages) {
-            // Pequeño retraso para asegurar una transición suave
             const timer = setTimeout(() => {
                 setRenderSkeleton(false);
-            }, 200);
+            }, 300);
             
             return () => clearTimeout(timer);
         }
     }, [fetchingData, loadingImages]);
 
-    // Siempre mostrar skeleton mientras esté en renderSkeleton = true
     if (renderSkeleton) {
         return <GridSkeleton 
             title={title} 

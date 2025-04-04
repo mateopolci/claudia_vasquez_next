@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 interface GridSkeletonProps {
@@ -6,14 +8,15 @@ interface GridSkeletonProps {
 }
 
 function GridSkeleton({ title = "Portfolio", count = 25 }: GridSkeletonProps) {
-  // Create an array of placeholders matching expected content count
   const placeholders = Array.from({ length: count }, (_, i) => i);
 
   return (
-    <div>
-      <div className="w-full flex justify-center items-center">
-        <h1 className="text-3xl font-bold mt-8">{title}</h1>
-      </div>
+    <div className="container mx-auto px-4">
+      {title && (
+        <div className="w-full flex justify-center items-center">
+          <h1 className="text-3xl font-bold mt-8 mb-8">{title}</h1>
+        </div>
+      )}
       <div className="p-22">
         <ul
           role="list"
@@ -21,16 +24,15 @@ function GridSkeleton({ title = "Portfolio", count = 25 }: GridSkeletonProps) {
         >
           {placeholders.map((placeholder) => (
             <li key={placeholder} className="relative">
-              <div className="skeleton-item group block w-full aspect-square rounded-lg bg-gray-200 overflow-hidden" />
-              <div className="skeleton-item mt-2 h-4 bg-gray-200 rounded w-3/4" />
-              <div className="skeleton-item mt-1 h-4 bg-gray-200 rounded w-1/2" />
+              <div className="skeleton-item group block w-full aspect-square rounded-lg overflow-hidden" />
+              <div className="skeleton-item mt-2 h-4 rounded w-3/4" />
+              <div className="skeleton-item mt-1 h-4 rounded w-1/2" />
             </li>
           ))}
         </ul>
       </div>
 
-      {/* Adding the shimmer effect styling */}
-      <style jsx global>{`
+      <style jsx>{`
         @keyframes shimmer {
           0% {
             background-position: -468px 0;
@@ -43,13 +45,14 @@ function GridSkeleton({ title = "Portfolio", count = 25 }: GridSkeletonProps) {
         .skeleton-item {
           background: linear-gradient(
             to right,
-            rgba(229, 231, 235, 0.3) 8%,
-            rgba(229, 231, 235, 0.6) 18%,
-            rgba(229, 231, 235, 0.3) 33%
+            #f0f0f0 8%,
+            #e0e0e0 18%,
+            #f0f0f0 33%
           );
+          background-color: #f5f5f5;
           background-size: 800px 104px;
           position: relative;
-          animation-duration: 2.5s;
+          animation-duration: 1.5s;
           animation-fill-mode: forwards;
           animation-iteration-count: infinite;
           animation-name: shimmer;
