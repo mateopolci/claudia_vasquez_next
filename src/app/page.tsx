@@ -7,19 +7,18 @@ import Grid from "./components/Grid";
 import ScrollToTop from "./components/ScrollToTop";
 import Banner from "./components/Banner";
 import { Montserrat } from "next/font/google";
+import { useSearchParams } from "next/navigation";
 
 const montserrat = Montserrat({
     subsets: ["latin"],
     weight: ["400", "700"],
 });
 
-export default function Home({
-    searchParams,
-}: {
-    searchParams: { page?: string };
-}) {
-    const currentPage = searchParams.page ? parseInt(searchParams.page) : 1;
-
+export default function Home() {
+    const searchParams = useSearchParams();
+    const pageParam = searchParams.get('page');
+    const currentPage = pageParam ? parseInt(pageParam) : 1;
+    
     const isFirstPage = currentPage === 1;
 
     return (

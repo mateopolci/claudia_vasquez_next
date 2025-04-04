@@ -1,42 +1,82 @@
-import React from "react";
+"use client";
+
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 interface BannerImage {
-    id: number;
-    documentId: string;
     url: string;
-    alternativeText: string;
+    alternativeText?: string;
 }
 
 interface BannerData {
     data: {
-        id: number;
-        documentId: string;
         banner: BannerImage;
     };
 }
 
-async function Banner() {
-    const domain = "http://localhost:1337/";
-    const bannerEndpoint = `${domain}api/banner?fields[0]=id&populate[banner][fields][0]=url&populate[banner][fields][1]=alternativeText`;
-
-    const res = await fetch(bannerEndpoint, { next: { revalidate: 3600 } });
-    const bannerData: BannerData = await res.json();
-
-    const { banner } = bannerData.data;
-
+export default function Banner() {
+    const [bannerData, setBannerData] = useState<BannerData | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+    
+    useEffect(() => {
+        // Avoid infinite fetch loops with a flag
+        let isMounted = true;
+        
+        const fetchBanner = async () => {
+            try {
+                const domain = "http://localhost:1337/";
+                const bannerEndpoint = `${domain}api/banner?fields[0]=id&populate[banner][fields][0]=url&populate[banner][fields][1]=alternativeText`;
+                
+                const res = await fetch(bannerEndpoint, {
+                    // Add cache control to prevent excessive requests
+                    cache: 'force-cache'
+                });
+                
+                if (!res.ok) throw new Error(`Error: ${res.status}`);
+                
+                const data = await res.json();
+                
+                // Only update state if component is still mounted
+                if (isMounted) {
+                    setBannerData(data);
+                    setLoading(false);
+                }
+            } catch (err) {
+                console.error("Failed to fetch banner:", err);
+                if (isMounted) {
+                    setError(true);
+                    setLoading(false);
+                }
+            }
+        };
+        
+        fetchBanner();
+        
+        // Cleanup function to prevent state updates after unmounting
+        return () => {
+            isMounted = false;
+        };
+    }, []); // Empty dependency array ensures this runs once
+    
+    // Show loading state
+    if (loading) return <div className="banner-placeholder h-[400px] bg-gray-200 animate-pulse"></div>;
+    
+    // Show error state
+    if (error) return <div className="banner-error h-[200px] flex items-center justify-center">No se pudo cargar el banner</div>;
+    
+    // Show banner when data is available
+    if (!bannerData?.data?.banner?.url) return null;
+    
     return (
-        <div className="relative w-full h-[300px] md:h-[400px] lg:h-[500px] overflow-hidden">
+        <div className="relative w-full h-[400px]">
             <Image
-                src={banner.url}
-                alt={banner.alternativeText || "Banner principal"}
+                src={bannerData.data.banner.url}
+                alt={bannerData.data.banner.alternativeText || "Banner imagen"}
                 fill
-                priority
                 style={{ objectFit: "cover" }}
-                className="w-full"
+                priority
             />
         </div>
     );
 }
-
-export default Banner;
