@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Whatsapp from "../components/Whatsapp";
 import Grid from "../components/Grid";
-import GridSkeleton from "../components/GridSkeleton"; // Importa el skeleton
+import GridSkeleton from "../components/GridSkeleton";
 import ScrollToTop from "../components/ScrollToTop";
 import { Montserrat } from "next/font/google";
 import { useState, useEffect } from "react";
@@ -31,7 +31,7 @@ function Disponibles() {
         <ScrollToTop />
         
         <div className="container mx-auto py-12 px-4">
-          <h1 className="text-3xl font-bold mb-8 text-center">Obras Disponibles</h1>
+          <h1 className="text-3xl font-medium mb-8 text-center">Obras Disponibles</h1>
           
           {!mounted ? (
             <GridSkeleton title="" count={25} />

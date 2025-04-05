@@ -74,7 +74,7 @@ export default async function Bio() {
                 <ScrollToTop />
 
                 <div className="container mx-auto py-12 px-4 md:px-8">
-                    <h1 className="text-3xl font-bold mb-8">Biografía</h1>
+                    <h1 className="text-3xl font-medium mb-8">Biografía</h1>
 
                     <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-1">
@@ -108,7 +108,7 @@ export default async function Bio() {
                         ))}
                     </div>
 
-                    <h2 className="text-2xl font-bold mb-6">
+                    <h2 className="text-2xl font-medium mb-6">
                         Concepto Artístico
                     </h2>
 

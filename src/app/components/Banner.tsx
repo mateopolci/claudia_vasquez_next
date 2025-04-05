@@ -20,7 +20,6 @@ export default function Banner() {
     const [error, setError] = useState(false);
     
     useEffect(() => {
-        // Avoid infinite fetch loops with a flag
         let isMounted = true;
         
         const fetchBanner = async () => {
@@ -29,7 +28,6 @@ export default function Banner() {
                 const bannerEndpoint = `${domain}api/banner?fields[0]=id&populate[banner][fields][0]=url&populate[banner][fields][1]=alternativeText`;
                 
                 const res = await fetch(bannerEndpoint, {
-                    // Add cache control to prevent excessive requests
                     cache: 'force-cache'
                 });
                 
@@ -37,7 +35,6 @@ export default function Banner() {
                 
                 const data = await res.json();
                 
-                // Only update state if component is still mounted
                 if (isMounted) {
                     setBannerData(data);
                     setLoading(false);
@@ -53,19 +50,15 @@ export default function Banner() {
         
         fetchBanner();
         
-        // Cleanup function to prevent state updates after unmounting
         return () => {
             isMounted = false;
         };
-    }, []); // Empty dependency array ensures this runs once
+    }, []);
     
-    // Show loading state
     if (loading) return <div className="banner-placeholder h-[400px] bg-gray-200 animate-pulse"></div>;
     
-    // Show error state
     if (error) return <div className="banner-error h-[200px] flex items-center justify-center">No se pudo cargar el banner</div>;
     
-    // Show banner when data is available
     if (!bannerData?.data?.banner?.url) return null;
     
     return (

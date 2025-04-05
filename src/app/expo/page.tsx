@@ -55,7 +55,7 @@ export default async function Expo() {
                 <ScrollToTop />
 
                 <div className="container mx-auto py-12 px-22">
-                    <h1 className="text-3xl font-bold mb-8">Exposiciones</h1>
+                    <h1 className="text-3xl font-medium mb-8">Exposiciones</h1>
 
                     <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6 ">
                         <div>
