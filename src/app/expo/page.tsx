@@ -32,7 +32,7 @@ interface ImageData {
 
 interface ExpoData {
     data: {
-        exhibition_info: ParagraphChild[];
+        details: ParagraphChild[];
         expo1: ImageData;
         expo2: ImageData;
     };
@@ -49,7 +49,7 @@ export default function Expo() {
         const fetchExpoData = async () => {
             try {
                 const domain = "http://localhost:1337/";
-                const expoEndpoint = `${domain}api/exhibition?fields=exhibition_info&populate[expo1][fields]=id,url&populate[expo2][fields]=id,url`;
+                const expoEndpoint = `${domain}api/expo?fields=id,documentId,details&populate[expo1][fields]=id,url&populate[expo2][fields]=id,url`;
 
                 const res = await fetch(expoEndpoint, { next: { revalidate: 3600 } });
 
@@ -115,12 +115,12 @@ export default function Expo() {
 
     if (!expoData?.data) return null;
 
-    const { exhibition_info, expo1, expo2 } = expoData.data;
+    const { details, expo1, expo2 } = expoData.data;
 
-    const halfExhibitionLength = Math.ceil(exhibition_info.length / 2);
-    const firstHalf = exhibition_info.slice(0, halfExhibitionLength);
-    const secondHalf = exhibition_info.slice(halfExhibitionLength);
-
+    const halfExhibitionLength = Math.ceil(details.length / 2);
+    const firstHalf = details.slice(0, halfExhibitionLength);
+    const secondHalf = details.slice(halfExhibitionLength);
+    
     return (
         <main className={montserrat.className}>
             <div className="flex flex-col justify-between min-h-screen items-center">
