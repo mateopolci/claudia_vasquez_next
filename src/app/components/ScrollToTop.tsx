@@ -9,7 +9,7 @@ function ScrollToTop() {
 
     const handleScroll = () => {
         const documentHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrollPercent = (window.scrollY / documentHeight) * 100;
+        const scrollPercent = documentHeight > 0 ? (window.scrollY / documentHeight) * 100 : 0;
         
         setScrollProgress(scrollPercent);
     };
@@ -23,18 +23,27 @@ function ScrollToTop() {
 
     useEffect(() => {
         window.addEventListener("scroll", handleScroll);
+        handleScroll();
         
         return () => {
             window.removeEventListener("scroll", handleScroll);
         };
     }, []);
 
-    // Calculo de opacidad basada en el progreso de scroll
     const calculateOpacity = () => {
         if (scrollProgress <= startShowingAt) return 0;
         if (scrollProgress >= fullyVisibleAt) return 1;
         
-        return (scrollProgress - startShowingAt) / (fullyVisibleAt - startShowingAt);
+        const calculatedOpacity = (scrollProgress - startShowingAt) / (fullyVisibleAt - startShowingAt);
+        
+        if (isNaN(calculatedOpacity) || calculatedOpacity < 0) {
+            return 0;
+        }
+        if (calculatedOpacity > 1) {
+            return 1;
+        }
+        
+        return calculatedOpacity;
     };
 
     const buttonStyle = {
@@ -45,7 +54,7 @@ function ScrollToTop() {
 
     return (
         <button 
-            className="button z-1000" 
+            className="button z-100" 
             onClick={scrollToTop} 
             aria-label="Volver al inicio"
             style={buttonStyle}

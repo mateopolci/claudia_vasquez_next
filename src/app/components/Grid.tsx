@@ -31,6 +31,22 @@ interface PaginationData {
     total: number;
 }
 
+interface TextNode {
+    type: string;
+    text: string;
+}
+
+interface ChildNode {
+    text: any;
+    type: string;
+    children: TextNode[];
+}
+
+interface SeriesDescription {
+    type: string;
+    children: ChildNode[];
+}
+
 interface GridProps {
     endpoint: string;
     title?: string;
@@ -39,10 +55,10 @@ interface GridProps {
 function Grid({ endpoint, title = "Portfolio" }: GridProps) {
     const [artworks, setArtworks] = useState<Artwork[]>([]);
     const [pagination, setPagination] = useState<PaginationData | null>(null);
-    const [fetchingData, setFetchingData] = useState(true);
-    const [loadingImages, setLoadingImages] = useState(true);
-    const [renderSkeleton, setRenderSkeleton] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [seriesDescription, setSeriesDescription] = useState<SeriesDescription[] | null>(null);
+    const [loadingDescription, setLoadingDescription] = useState(false);
 
     const [lightboxOpen, setLightboxOpen] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -56,9 +72,41 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
     }pagination[page]=${currentPage}&pagination[pageSize]=12`;
 
     useEffect(() => {
-        setRenderSkeleton(true);
-        setFetchingData(true);
-        setLoadingImages(true);
+        if (title !== "Portfolio" && title !== "Disponibles") {
+            setLoadingDescription(true);
+            
+            const fetchSeriesDescription = async () => {
+                try {
+                    const response = await fetch(
+                        `${domain}api/series?filters[name][$eq]=${title}&fields[0]=id&fields[1]=documentId&fields[2]=name&fields[3]=description`
+                    );
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.data && data.data.length > 0 && data.data[0].description) {
+                        setSeriesDescription(data.data[0].description);
+                    }
+                } catch (err) {
+                    console.error("Error fetching series description:", err);
+                } finally {
+                    setLoadingDescription(false);
+                }
+            };
+            
+            fetchSeriesDescription();
+        }
+    }, [domain, title]);
+
+    useEffect(() => {
+        setIsLoading(true);
+        setError(null);
+        
+        const startTime = Date.now();
+        const minLoadTime = 1500;
 
         async function fetchArtworks() {
             try {
@@ -71,83 +119,33 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
                 const data = await response.json();
                 setArtworks(data.data);
                 setPagination(data.meta.pagination);
-                setFetchingData(false);
-
-                if (data.data.length === 0) {
-                    setLoadingImages(false);
+                
+                const elapsedTime = Date.now() - startTime;
+                const remainingTime = Math.max(0, minLoadTime - elapsedTime);
+                
+                if (remainingTime > 0) {
+                    setTimeout(() => {
+                        setIsLoading(false);
+                    }, remainingTime);
+                } else {
+                    setIsLoading(false);
                 }
+                
             } catch (err) {
                 console.error("Error fetching data:", err);
                 setError("No se pudieron cargar las obras");
-                setFetchingData(false);
-                setLoadingImages(false);
+                setIsLoading(false);
             }
         }
 
         fetchArtworks();
 
         const safetyTimeout = setTimeout(() => {
-            setRenderSkeleton(false);
-            setLoadingImages(false);
-            setFetchingData(false);
-        }, 8000);
+            setIsLoading(false);
+        }, 15000);
 
         return () => clearTimeout(safetyTimeout);
     }, [fullEndpoint, currentPage]);
-
-    useEffect(() => {
-        if (!fetchingData && artworks.length > 0 && loadingImages) {
-            let loadedCount = 0;
-            const totalImages = artworks.length;
-
-            const preloadImages = () => {
-                artworks.forEach((artwork) => {
-                    if (!artwork.image || !artwork.image.url) {
-                        loadedCount++;
-                        if (loadedCount === totalImages) {
-                            setLoadingImages(false);
-                        }
-                        return;
-                    }
-
-                    const img = new Image();
-                    img.src = artwork.image.url;
-
-                    img.onload = () => {
-                        loadedCount++;
-                        if (loadedCount === totalImages) {
-                            setLoadingImages(false);
-                        }
-                    };
-
-                    img.onerror = () => {
-                        loadedCount++;
-                        if (loadedCount === totalImages) {
-                            setLoadingImages(false);
-                        }
-                    };
-                });
-            };
-
-            preloadImages();
-
-            const imageTimeout = setTimeout(() => {
-                setLoadingImages(false);
-            }, 5000);
-
-            return () => clearTimeout(imageTimeout);
-        }
-    }, [fetchingData, artworks]);
-
-    useEffect(() => {
-        if (!fetchingData && !loadingImages) {
-            const timer = setTimeout(() => {
-                setRenderSkeleton(false);
-            }, 300);
-
-            return () => clearTimeout(timer);
-        }
-    }, [fetchingData, loadingImages]);
 
     const breakpointColumnsObj = {
         default: 4,
@@ -187,9 +185,9 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
         code: artwork.code,
     }));
 
-    if (renderSkeleton) {
+    if (isLoading) {
         return (
-            <GridSkeleton title={title} count={pagination?.pageSize || 25} />
+            <GridSkeleton title={title} count={pagination?.pageSize || 12} />
         );
     }
 
@@ -212,28 +210,47 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
     if (artworks.length === 0)
         return <div className="text-center my-8">No artworks found</div>;
 
-    if (renderSkeleton) {
-        return (
-            <GridSkeleton title={title} count={pagination?.pageSize || 25} />
-        );
-    }
-
-    if (error)
-        return (
-            <div className="text-center my-8">
-                No se pudo cargar la información
-            </div>
-        );
-    if (artworks.length === 0)
-        return <div className="text-center my-8">No artworks found</div>;
+    const renderDescription = () => {
+        if (!seriesDescription) return null;
+        
+        return seriesDescription.map((block, blockIndex) => {
+            if (block.type === 'paragraph') {
+                return (
+                    <p key={blockIndex} className="text-center text-gray-700 mx-auto max-w-3xl mb-4 px-4">
+                        {block.children.map((child, childIndex) => {
+                            if (child.text) {
+                                return <span key={childIndex}>{child.text}</span>;
+                            }
+                            else if (child.children && Array.isArray(child.children)) {
+                                return child.children.map((textNode, textIndex) => (
+                                    <span key={`${childIndex}-${textIndex}`}>
+                                        {textNode.text}
+                                    </span>
+                                ));
+                            }
+                            return null;
+                        })}
+                    </p>
+                );
+            }
+            return null;
+        });
+    };
 
     return (
         <div>
-            <div className="w-full flex justify-center items-center">
+            <div className="w-full flex flex-col justify-center items-center">
                 <h1 className="text-3xl font-medium mt-8">{title}</h1>
+                
+                {!loadingDescription && (
+                    <div className="mt-4 mb-6">
+                        {renderDescription()}
+                    </div>
+                )}
             </div>
+            
             <div className="p-4 sm:p-6 md:p-8">
-            <Masonry
+                <Masonry
                     breakpointCols={breakpointColumnsObj}
                     className="flex w-auto -ml-4"
                     columnClassName="pl-4 bg-clip-padding"

@@ -24,14 +24,12 @@ export default function SeriePage() {
         <main className={`min-h-screen ${montserrat.className}`}>
             <div className="flex flex-col min-h-screen">
                 <Navbar />
-
                 <div className="flex-grow container mx-auto px-4 sm:px-0">
                     <Grid
                         endpoint={endpoint}
                         title={`${decodeURIComponent(serieName)}`}
                     />
                 </div>
-
                 <Footer />
             </div>
             <Whatsapp />
