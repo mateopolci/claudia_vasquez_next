@@ -40,7 +40,6 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
     const [renderSkeleton, setRenderSkeleton] = useState(true);
     const [error, setError] = useState<string | null>(null);
   
-    // Lightbox state
     const [lightboxOpen, setLightboxOpen] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
@@ -217,7 +216,6 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
             
             <PageNavigation pagination={pagination} />
             
-            {/* Lightbox Modal */}
             {lightboxOpen && artworks.length > 0 && (
                 <LightboxModal
                     images={lightboxImages}
