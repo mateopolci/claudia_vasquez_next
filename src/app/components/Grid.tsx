@@ -12,6 +12,8 @@ interface Artwork {
     name: string;
     support: string;
     size: string;
+    year?: string;
+    code?: string;
     image: {
         id: number;
         documentId: string;
@@ -157,7 +159,9 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
         alt: artwork.image?.alternativeText || artwork.name,
         name: artwork.name,
         support: artwork.support,
-        size: artwork.size
+        size: artwork.size,
+        year: artwork.year,
+        code: artwork.code
     }));
 
     if (renderSkeleton) {

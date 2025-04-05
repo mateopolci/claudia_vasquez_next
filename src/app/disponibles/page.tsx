@@ -21,8 +21,7 @@ function Disponibles() {
     setMounted(true);
   }, []);
   
-  // Prepara la URL del endpoint
-  const endpoint = "api/artworks?fields[0]=id&fields[1]=documentId&fields[2]=name&fields[3]=support&fields[4]=size&populate[image][fields][0]=url&populate[image][fields][1]=alternativeText&filters[available][$eq]=true&sort=year:desc";
+  const endpoint = "api/artworks?fields[0]=id&fields[1]=documentId&fields[2]=name&fields[3]=support&fields[4]=size&fields[5]=year&fields[6]=code&populate[image][fields][0]=url&populate[image][fields][1]=alternativeText&filters[available][$eq]=true&sort=year:desc";
 
   return (
     <main className={montserrat.className}>
