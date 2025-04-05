@@ -14,7 +14,7 @@ function GridSkeleton({ title = "Portfolio", count = 25 }: GridSkeletonProps) {
         <div className="container mx-auto px-4">
             {title && (
                 <div className="w-full flex justify-center items-center">
-                    <h1 className="text-3xl font-bold mt-8 mb-8">{title}</h1>
+                    <h1 className="text-3xl font-medium mt-8 mb-8">{title}</h1>
                 </div>
             )}
             <div className="p-22">

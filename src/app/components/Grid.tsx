@@ -52,7 +52,7 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
     const domain = "http://localhost:1337/";
     const fullEndpoint = `${domain}${endpoint}${
         endpoint.includes("?") ? "&" : "?"
-    }pagination[page]=${currentPage}&pagination[pageSize]=25`;
+    }pagination[page]=${currentPage}&pagination[pageSize]=12`;
 
     useEffect(() => {
         setRenderSkeleton(true);

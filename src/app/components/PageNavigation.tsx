@@ -61,7 +61,7 @@ function PageNavigation({ pagination }: PageNavigationProps) {
           {currentPage > 1 && (
             <a 
               href={createPageURL(currentPage - 1)} 
-              className="border-t-2 border-transparent pt-4 pr-1 inline-flex items-center text-sm font-medium text-black-500 hover:text-black-700 hover:border-gray-300"
+              className="border-t-2 border-transparent pt-4 pr-1 inline-flex items-center text-sm font-medium text-black-500 hover:text-black-700 hover:border-claudiapurple"
             >
               <svg className="mr-3 h-5 w-5 text-black-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path fillRule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clipRule="evenodd" />
@@ -88,7 +88,7 @@ function PageNavigation({ pagination }: PageNavigationProps) {
                 className={`${
                   pageNumber === currentPage
                     ? "border-black text-black"
-                    : "border-transparent text-black-500 hover:text-black-700 hover:border-gray-300"
+                    : "border-transparent text-black-500 hover:text-black-700 hover:border-claudiapurple"
                 } border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium`}
                 aria-current={pageNumber === currentPage ? "page" : undefined}
               >
@@ -102,7 +102,7 @@ function PageNavigation({ pagination }: PageNavigationProps) {
           {currentPage < totalPages && (
             <a 
               href={createPageURL(currentPage + 1)} 
-              className="border-t-2 border-transparent pt-4 pl-1 inline-flex items-center text-sm font-medium text-black-500 hover:text-black-700 hover:border-gray-300"
+              className="border-t-2 border-transparent pt-4 pl-1 inline-flex items-center text-sm font-medium text-black-500 hover:text-black-700 hover:border-claudiapurple"
             >
               Next
               <svg className="ml-3 h-5 w-5 text-black-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
