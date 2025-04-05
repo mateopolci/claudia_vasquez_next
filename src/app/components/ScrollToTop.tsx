@@ -45,7 +45,7 @@ function ScrollToTop() {
 
     return (
         <button 
-            className="button" 
+            className="button z-1000" 
             onClick={scrollToTop} 
             aria-label="Volver al inicio"
             style={buttonStyle}

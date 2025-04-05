@@ -73,7 +73,7 @@ export default async function Bio() {
                 <Whatsapp />
                 <ScrollToTop />
 
-                <div className="container mx-auto py-12 px-4 md:px-8">
+                <div className="container mx-auto py-12 px-22">
                     <h1 className="text-3xl font-medium mb-8">Biografía</h1>
 
                     <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6">
