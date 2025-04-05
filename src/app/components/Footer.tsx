@@ -4,13 +4,13 @@ import { Phone, Instagram } from "lucide-react";
 
 function Footer() {
     return (
-        <div className="flex flex-col justify-center items-center p-5 text-center bg-gray-100 px-20 w-full">
-            <div className="flex justify-center items-center footerText">
+        <div className="flex flex-col justify-center items-center p-5 text-center bg-gray-100 px-4 sm:px-10 md:px-20 w-full">
+            <div className="flex flex-col md:flex-row justify-center items-center footerText gap-4 md:gap-0">
                 <div className="flex justify-center items-center">
-                    <Phone className="footerIcons"/>
+                    <Phone className="footerIcons md:order-none order-first"/>
                     <p className="pl-2">+54 9 11 6851 3268</p>
                 </div>
-                <div className="px-5">
+                <div className="px-5 my-3 md:my-0">
                     <Image
                         src="/logo.png"
                         alt="Logo artístico de Claudia Vásquez"
@@ -20,8 +20,8 @@ function Footer() {
                     />
                 </div>
                 <div className="flex justify-center items-center">
-                    <p className="pr-2">claudiavasquez.art</p>
-                    <Instagram className="footerIcons" />
+                    <Instagram className="footerIcons md:order-none order-first" />
+                    <p className="md:pr-2 pl-2 md:pl-0">claudiavasquez.art</p>
                 </div>
             </div>
             <div className="w-full">
