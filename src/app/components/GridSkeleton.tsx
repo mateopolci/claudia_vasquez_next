@@ -7,7 +7,7 @@ interface GridSkeletonProps {
     count?: number;
 }
 
-function GridSkeleton({ title = "Portfolio", count = 25 }: GridSkeletonProps) {
+function GridSkeleton({ title = "Portfolio", count = 12 }: GridSkeletonProps) {
     const placeholders = Array.from({ length: count }, (_, i) => i);
 
     return (

@@ -34,7 +34,7 @@ function Disponibles() {
           <h1 className="text-3xl font-medium mb-8 text-center">Obras Disponibles</h1>
           
           {!mounted ? (
-            <GridSkeleton title="" count={25} />
+            <GridSkeleton title="" count={12} />
           ) : (
             <Grid
               endpoint={endpoint}

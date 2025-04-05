@@ -6,6 +6,7 @@ import PageNavigation from "./PageNavigation";
 import GridSkeleton from "./GridSkeleton";
 import LightboxModal from "./LightboxModal";
 import Masonry from "react-masonry-css";
+import AlertMessage from "./AlertMessage";
 
 interface Artwork {
     id: number;
@@ -77,11 +78,7 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
                 }
             } catch (err) {
                 console.error("Error fetching data:", err);
-                setError(
-                    err instanceof Error
-                        ? err.message
-                        : "An unknown error occurred"
-                );
+                setError("No se pudieron cargar las obras");
                 setFetchingData(false);
                 setLoadingImages(false);
             }
@@ -196,12 +193,22 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
         );
     }
 
-    if (error)
+    if (error) {
         return (
-            <div className="text-center my-8 text-red-500">
-                Error loading artworks: {error}
-            </div>
+            <>
+                <div className="text-center my-8">
+                    No se pudo cargar la información
+                </div>
+                <AlertMessage 
+                    type="error"
+                    title="Error" 
+                    text={error}
+                    timer={3000}
+                />
+            </>
         );
+    }
+    
     if (artworks.length === 0)
         return <div className="text-center my-8">No artworks found</div>;
 
@@ -213,8 +220,8 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
 
     if (error)
         return (
-            <div className="text-center my-8 text-red-500">
-                Error loading artworks: {error}
+            <div className="text-center my-8">
+                No se pudo cargar la información
             </div>
         );
     if (artworks.length === 0)

@@ -1,9 +1,13 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Whatsapp from "../components/Whatsapp";
 import ScrollToTop from "../components/ScrollToTop";
 import { Montserrat } from "next/font/google";
 import Image from "next/image";
+import AlertMessage from "../components/AlertMessage";
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -53,12 +57,82 @@ function FormattedParagraph({ paragraph }: { paragraph: ParagraphChild }) {
     );
 }
 
-export default async function Bio() {
-    const domain = "http://localhost:1337/";
-    const bioEndpoint = `${domain}api/bio?fields=biography,art_concept&populate[bio][fields]=id,url&populate[concept][fields]=id,url`;
+export default function Bio() {
+    const [bioData, setBioData] = useState<BioData | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-    const res = await fetch(bioEndpoint, { next: { revalidate: 3600 } });
-    const bioData: BioData = await res.json();
+    useEffect(() => {
+        let isMounted = true;
+        
+        const fetchBioData = async () => {
+            try {
+                const domain = "http://localhost:1337/";
+                const bioEndpoint = `${domain}api/bio?fields=biography,art_concept&populate[bio][fields]=id,url&populate[concept][fields]=id,url`;
+                
+                const res = await fetch(bioEndpoint, { next: { revalidate: 3600 } });
+                
+                if (!res.ok) throw new Error(`Error: ${res.status}`);
+                
+                const data = await res.json();
+                
+                if (isMounted) {
+                    setBioData(data);
+                    setLoading(false);
+                }
+            } catch (err) {
+                console.error("Failed to fetch bio data:", err);
+                if (isMounted) {
+                    setError("No se pudo cargar la información");
+                    setLoading(false);
+                }
+            }
+        };
+        
+        fetchBioData();
+        
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
+    if (loading) {
+        return (
+            <main className={montserrat.className}>
+                <div className="flex flex-col justify-between min-h-screen items-center">
+                    <Navbar />
+                    <div className="container mx-auto py-12 px-22">
+                        <div className="h-[60vh] bg-gray-200 animate-pulse rounded-lg"></div>
+                    </div>
+                    <Footer />
+                </div>
+            </main>
+        );
+    }
+
+    if (error) {
+        return (
+            <main className={montserrat.className}>
+                <div className="flex flex-col justify-between min-h-screen items-center">
+                    <Navbar />
+                    <div className="container mx-auto py-12 px-22 flex items-center justify-center">
+                        <div className="h-[50vh] flex items-center justify-center bg-gray-100 w-full">
+                            <p className="text-gray-500">No se pudo cargar la información</p>
+                        </div>
+                    </div>
+                    <Footer />
+                    <AlertMessage 
+                        type="error"
+                        title="Error" 
+                        text={error}
+                        timer={3000}
+                    />
+                </div>
+            </main>
+        );
+    }
+
+    if (!bioData?.data) return null;
 
     const { biography, art_concept, bio, concept } = bioData.data;
 
@@ -74,7 +148,7 @@ export default async function Bio() {
                 <ScrollToTop />
 
                 <div className="container mx-auto py-12 px-22">
-                    <h1 className="text-3xl font-medium mb-8">Biografía</h1>
+                    <h1 className="text-3xl font-medium mb-8 md:text-2xl">Biografía</h1>
 
                     <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-1">
