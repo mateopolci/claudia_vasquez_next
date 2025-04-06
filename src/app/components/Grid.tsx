@@ -68,7 +68,7 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
     const searchParams = useSearchParams();
     const currentPage = Number(searchParams.get("page") || 1);
 
-    const domain = "http://localhost:1337/";
+    const domain = "https://claudiavasquezstrapi-production.up.railway.app/";
     const fullEndpoint = `${domain}${endpoint}${
         endpoint.includes("?") ? "&" : "?"
     }pagination[page]=${currentPage}&pagination[pageSize]=12`;

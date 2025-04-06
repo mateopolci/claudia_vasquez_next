@@ -48,7 +48,7 @@ export default function Expo() {
 
         const fetchExpoData = async () => {
             try {
-                const domain = "http://localhost:1337/";
+                const domain = "https://claudiavasquezstrapi-production.up.railway.app/";
                 const expoEndpoint = `${domain}api/expo?fields=id,documentId,details&populate[expo1][fields]=id,url&populate[expo2][fields]=id,url`;
 
                 const res = await fetch(expoEndpoint, { next: { revalidate: 3600 } });
