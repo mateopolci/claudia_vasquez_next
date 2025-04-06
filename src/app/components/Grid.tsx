@@ -216,7 +216,7 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
         return seriesDescription.map((block, blockIndex) => {
             if (block.type === 'paragraph') {
                 return (
-                    <p key={blockIndex} className="text-center text-gray-700 mx-auto max-w-3xl mb-4 px-4">
+                    <p key={blockIndex} className="text-gray-700 mx-auto max-w-3xl mb-4 px-4 text-justify">
                         {block.children.map((child, childIndex) => {
                             if (child.text) {
                                 return <span key={childIndex}>{child.text}</span>;

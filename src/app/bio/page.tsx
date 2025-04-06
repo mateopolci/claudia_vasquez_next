@@ -8,6 +8,7 @@ import ScrollToTop from "../components/ScrollToTop";
 import { Montserrat } from "next/font/google";
 import Image from "next/image";
 import AlertMessage from "../components/AlertMessage";
+import LiteYoutube from "../components/LiteYoutube";
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -84,23 +85,30 @@ export default function Bio() {
     useEffect(() => {
         let isMounted = true;
         const domain = "http://localhost:1337/";
-        
+
         const fetchData = async () => {
             try {
-                // Fetch both bio data and banner data in parallel
                 const [bioRes, bannerRes] = await Promise.all([
-                    fetch(`${domain}api/bio?fields=biography,art_concept&populate[bio][fields]=id,url&populate[concept][fields]=id,url`, 
-                        { next: { revalidate: 3600 } }),
-                    fetch(`${domain}api/banner?populate[bannerBio][fields][0]=alternativeText&populate[bannerBio][fields][1]=url`,
-                        { next: { revalidate: 3600 } })
+                    fetch(
+                        `${domain}api/bio?fields=biography,art_concept&populate[bio][fields]=id,url&populate[concept][fields]=id,url`,
+                        { next: { revalidate: 3600 } }
+                    ),
+                    fetch(
+                        `${domain}api/banner?populate[bannerBio][fields][0]=alternativeText&populate[bannerBio][fields][1]=url`,
+                        { next: { revalidate: 3600 } }
+                    ),
                 ]);
-                
-                if (!bioRes.ok) throw new Error(`Error fetching bio: ${bioRes.status}`);
-                if (!bannerRes.ok) throw new Error(`Error fetching banner: ${bannerRes.status}`);
-                
+
+                if (!bioRes.ok)
+                    throw new Error(`Error fetching bio: ${bioRes.status}`);
+                if (!bannerRes.ok)
+                    throw new Error(
+                        `Error fetching banner: ${bannerRes.status}`
+                    );
+
                 const bioData = await bioRes.json();
                 const bannerData = await bannerRes.json();
-                
+
                 if (isMounted) {
                     setBioData(bioData);
                     setBannerData(bannerData);
@@ -114,9 +122,9 @@ export default function Bio() {
                 }
             }
         };
-        
+
         fetchData();
-        
+
         return () => {
             isMounted = false;
         };
@@ -143,13 +151,15 @@ export default function Bio() {
                     <Navbar />
                     <div className="container mx-auto py-12 px-22 flex items-center justify-center">
                         <div className="h-[50vh] flex items-center justify-center bg-gray-100 w-full">
-                            <p className="text-gray-500">No se pudo cargar la información</p>
+                            <p className="text-gray-500">
+                                No se pudo cargar la información
+                            </p>
                         </div>
                     </div>
                     <Footer />
-                    <AlertMessage 
+                    <AlertMessage
                         type="error"
-                        title="Error" 
+                        title="Error"
                         text={error}
                         timer={3000}
                     />
@@ -174,12 +184,14 @@ export default function Bio() {
                 <Whatsapp />
                 <ScrollToTop />
 
-                {/* Banner Section */}
                 {banner && (
                     <div className="w-full relative h-[40vh] md:h-[50vh]">
                         <Image
                             src={banner.url}
-                            alt={banner.alternativeText || "Claudia Vásquez - Banner de biografía"}
+                            alt={
+                                banner.alternativeText ||
+                                "Claudia Vásquez - Banner de biografía"
+                            }
                             fill
                             priority
                             style={{ objectFit: "cover" }}
@@ -188,13 +200,15 @@ export default function Bio() {
                 )}
 
                 <div className="container mx-auto py-12 px-22">
-                    <h1 className="text-3xl font-medium mb-8 md:text-2xl">Biografía</h1>
+                    <h1 className="text-3xl font-medium mb-8 md:text-2xl">
+                        Biografía
+                    </h1>
 
                     <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-1">
                             {firstHalf.map((paragraph, index) => (
-                                <FormattedParagraph 
-                                    key={index} 
+                                <FormattedParagraph
+                                    key={index}
                                     paragraph={paragraph}
                                 />
                             ))}
@@ -222,6 +236,10 @@ export default function Bio() {
                         ))}
                     </div>
 
+                    <div className="w-2/3 aspect-video mb-12 mx-auto">
+                        <LiteYoutube videoId="jxA3MSyfRk4" title="Claudia Vásquez" />
+                    </div>
+                    
                     <h2 className="text-2xl font-medium mb-6">
                         Concepto Artístico
                     </h2>
