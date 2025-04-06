@@ -57,7 +57,9 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
     const [pagination, setPagination] = useState<PaginationData | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [seriesDescription, setSeriesDescription] = useState<SeriesDescription[] | null>(null);
+    const [seriesDescription, setSeriesDescription] = useState<
+        SeriesDescription[] | null
+    >(null);
     const [loadingDescription, setLoadingDescription] = useState(false);
 
     const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -74,20 +76,26 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
     useEffect(() => {
         if (title !== "Portfolio" && title !== "Disponibles") {
             setLoadingDescription(true);
-            
+
             const fetchSeriesDescription = async () => {
                 try {
                     const response = await fetch(
                         `${domain}api/series?filters[name][$eq]=${title}&fields[0]=id&fields[1]=documentId&fields[2]=name&fields[3]=description`
                     );
-                    
+
                     if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
+                        throw new Error(
+                            `HTTP error! Status: ${response.status}`
+                        );
                     }
-                    
+
                     const data = await response.json();
-                    
-                    if (data.data && data.data.length > 0 && data.data[0].description) {
+
+                    if (
+                        data.data &&
+                        data.data.length > 0 &&
+                        data.data[0].description
+                    ) {
                         setSeriesDescription(data.data[0].description);
                     }
                 } catch (err) {
@@ -96,7 +104,7 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
                     setLoadingDescription(false);
                 }
             };
-            
+
             fetchSeriesDescription();
         }
     }, [domain, title]);
@@ -104,7 +112,7 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
     useEffect(() => {
         setIsLoading(true);
         setError(null);
-        
+
         const startTime = Date.now();
         const minLoadTime = 1500;
 
@@ -117,12 +125,13 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
                 }
 
                 const data = await response.json();
+
                 setArtworks(data.data);
                 setPagination(data.meta.pagination);
-                
+
                 const elapsedTime = Date.now() - startTime;
                 const remainingTime = Math.max(0, minLoadTime - elapsedTime);
-                
+
                 if (remainingTime > 0) {
                     setTimeout(() => {
                         setIsLoading(false);
@@ -130,7 +139,6 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
                 } else {
                     setIsLoading(false);
                 }
-                
             } catch (err) {
                 console.error("Error fetching data:", err);
                 setError("No se pudieron cargar las obras");
@@ -142,7 +150,7 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
 
         const safetyTimeout = setTimeout(() => {
             setIsLoading(false);
-        }, 15000);
+        }, 5000);
 
         return () => clearTimeout(safetyTimeout);
     }, [fullEndpoint, currentPage]);
@@ -197,36 +205,47 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
                 <div className="text-center my-8">
                     No se pudo cargar la información
                 </div>
-                <AlertMessage 
+                <AlertMessage
                     type="error"
-                    title="Error" 
+                    title="Error"
                     text={error}
                     timer={3000}
                 />
             </>
         );
     }
-    
+
     if (artworks.length === 0)
         return <div className="text-center my-8">No artworks found</div>;
 
     const renderDescription = () => {
         if (!seriesDescription) return null;
-        
+
         return seriesDescription.map((block, blockIndex) => {
-            if (block.type === 'paragraph') {
+            if (block.type === "paragraph") {
                 return (
-                    <p key={blockIndex} className="text-gray-700 mx-auto max-w-3xl mb-4 px-4 text-justify">
+                    <p
+                        key={blockIndex}
+                        className="text-gray-700 mx-auto max-w-3xl mb-4 px-4 text-justify"
+                    >
                         {block.children.map((child, childIndex) => {
                             if (child.text) {
-                                return <span key={childIndex}>{child.text}</span>;
-                            }
-                            else if (child.children && Array.isArray(child.children)) {
-                                return child.children.map((textNode, textIndex) => (
-                                    <span key={`${childIndex}-${textIndex}`}>
-                                        {textNode.text}
-                                    </span>
-                                ));
+                                return (
+                                    <span key={childIndex}>{child.text}</span>
+                                );
+                            } else if (
+                                child.children &&
+                                Array.isArray(child.children)
+                            ) {
+                                return child.children.map(
+                                    (textNode, textIndex) => (
+                                        <span
+                                            key={`${childIndex}-${textIndex}`}
+                                        >
+                                            {textNode.text}
+                                        </span>
+                                    )
+                                );
                             }
                             return null;
                         })}
@@ -241,14 +260,16 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
         <div>
             <div className="w-full flex flex-col justify-center items-center">
                 <h1 className="text-3xl font-medium mt-8">{title}</h1>
-                
-                {!loadingDescription && (
-                    <div className="mt-4 mb-6">
-                        {renderDescription()}
-                    </div>
-                )}
+
+                {!loadingDescription &&
+                    (() => {
+                        const description = renderDescription();
+                        return description ? (
+                            <div className="mt-4 mb-6">{description}</div>
+                        ) : null;
+                    })()}
             </div>
-            
+
             <div className="p-4 sm:p-6 md:p-8">
                 <Masonry
                     breakpointCols={breakpointColumnsObj}
