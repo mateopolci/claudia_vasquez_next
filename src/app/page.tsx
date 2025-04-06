@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense, useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Whatsapp from "./components/Whatsapp";
@@ -21,7 +22,7 @@ const montserrat = Montserrat({
     weight: ["400", "700"],
 });
 
-export default function Home() {
+function HomeContent() {
     const searchParams = useSearchParams();
     const pageParam = searchParams.get('page');
     const currentPage = pageParam ? parseInt(pageParam) : 1;
@@ -29,18 +30,32 @@ export default function Home() {
     const isFirstPage = currentPage === 1;
 
     return (
+        <>
+            {isFirstPage && <DynamicBanner />}
+            
+            <Grid
+                endpoint="api/artworks?fields[0]=id&fields[1]=documentId&fields[2]=name&fields[3]=support&fields[4]=size&fields[5]=year&fields[6]=code&populate[image][fields][0]=url&populate[image][fields][1]=alternativeText&sort=year:desc"
+                title="Portfolio"
+            />
+        </>
+    );
+}
+
+export default function Home() {
+    return (
         <main className={montserrat.className}>
             <div className="flex flex-col justify-between min-h-screen items-center">
                 <Navbar />
                 <Whatsapp />
                 <ScrollToTop />
                 
-                {isFirstPage && <DynamicBanner />}
-                
-                <Grid
-                    endpoint="api/artworks?fields[0]=id&fields[1]=documentId&fields[2]=name&fields[3]=support&fields[4]=size&fields[5]=year&fields[6]=code&populate[image][fields][0]=url&populate[image][fields][1]=alternativeText&sort=year:desc"
-                    title="Portfolio"
-                />
+                <Suspense fallback={
+                    <div className="container mx-auto py-12 px-4">
+                        <div className="h-[60vh] bg-gray-200 animate-pulse rounded-lg"></div>
+                    </div>
+                }>
+                    <HomeContent />
+                </Suspense>
                 
                 <Footer />
             </div>
