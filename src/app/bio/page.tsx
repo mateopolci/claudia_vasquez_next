@@ -31,6 +31,24 @@ interface ImageData {
     url: string;
 }
 
+interface BannerData {
+    id: number;
+    documentId: string;
+    alternativeText: string;
+    url: string;
+}
+
+interface BannerResponse {
+    data: {
+        id: number;
+        documentId: string;
+        createdAt: string;
+        updatedAt: string;
+        publishedAt: string;
+        bannerBio: BannerData;
+    };
+}
+
 interface BioData {
     data: {
         biography: ParagraphChild[];
@@ -59,29 +77,37 @@ function FormattedParagraph({ paragraph }: { paragraph: ParagraphChild }) {
 
 export default function Bio() {
     const [bioData, setBioData] = useState<BioData | null>(null);
+    const [bannerData, setBannerData] = useState<BannerResponse | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         let isMounted = true;
+        const domain = "http://localhost:1337/";
         
-        const fetchBioData = async () => {
+        const fetchData = async () => {
             try {
-                const domain = "http://localhost:1337/";
-                const bioEndpoint = `${domain}api/bio?fields=biography,art_concept&populate[bio][fields]=id,url&populate[concept][fields]=id,url`;
+                // Fetch both bio data and banner data in parallel
+                const [bioRes, bannerRes] = await Promise.all([
+                    fetch(`${domain}api/bio?fields=biography,art_concept&populate[bio][fields]=id,url&populate[concept][fields]=id,url`, 
+                        { next: { revalidate: 3600 } }),
+                    fetch(`${domain}api/banner?populate[bannerBio][fields][0]=alternativeText&populate[bannerBio][fields][1]=url`,
+                        { next: { revalidate: 3600 } })
+                ]);
                 
-                const res = await fetch(bioEndpoint, { next: { revalidate: 3600 } });
+                if (!bioRes.ok) throw new Error(`Error fetching bio: ${bioRes.status}`);
+                if (!bannerRes.ok) throw new Error(`Error fetching banner: ${bannerRes.status}`);
                 
-                if (!res.ok) throw new Error(`Error: ${res.status}`);
-                
-                const data = await res.json();
+                const bioData = await bioRes.json();
+                const bannerData = await bannerRes.json();
                 
                 if (isMounted) {
-                    setBioData(data);
+                    setBioData(bioData);
+                    setBannerData(bannerData);
                     setLoading(false);
                 }
             } catch (err) {
-                console.error("Failed to fetch bio data:", err);
+                console.error("Failed to fetch data:", err);
                 if (isMounted) {
                     setError("No se pudo cargar la información");
                     setLoading(false);
@@ -89,7 +115,7 @@ export default function Bio() {
             }
         };
         
-        fetchBioData();
+        fetchData();
         
         return () => {
             isMounted = false;
@@ -135,6 +161,7 @@ export default function Bio() {
     if (!bioData?.data) return null;
 
     const { biography, art_concept, bio, concept } = bioData.data;
+    const banner = bannerData?.data?.bannerBio;
 
     const halfBiographyLength = Math.ceil(biography.length / 2);
     const firstHalf = biography.slice(0, halfBiographyLength);
@@ -146,6 +173,19 @@ export default function Bio() {
                 <Navbar />
                 <Whatsapp />
                 <ScrollToTop />
+
+                {/* Banner Section */}
+                {banner && (
+                    <div className="w-full relative h-[40vh] md:h-[50vh]">
+                        <Image
+                            src={banner.url}
+                            alt={banner.alternativeText || "Claudia Vásquez - Banner de biografía"}
+                            fill
+                            priority
+                            style={{ objectFit: "cover" }}
+                        />
+                    </div>
+                )}
 
                 <div className="container mx-auto py-12 px-22">
                     <h1 className="text-3xl font-medium mb-8 md:text-2xl">Biografía</h1>

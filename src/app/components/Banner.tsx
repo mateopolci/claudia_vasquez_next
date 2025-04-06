@@ -56,12 +56,14 @@ export default function Banner() {
         };
     }, []);
     
-    if (loading) return <div className="banner-placeholder h-[250px] bg-gray-200 animate-pulse"></div>;
+    if (loading) return <div className="w-full h-[40vh] md:h-[50vh] bg-gray-200 animate-pulse"></div>;
     
     if (error) {
         return (
             <>
-                <div className="banner-error h-[250px] flex items-center justify-center bg-gray-100"></div>
+                <div className="w-full h-[40vh] md:h-[50vh] flex items-center justify-center bg-gray-100">
+                    <p className="text-gray-500">No se pudo cargar el banner</p>
+                </div>
                 <AlertMessage 
                     type="error"
                     title="Error" 
@@ -75,16 +77,13 @@ export default function Banner() {
     if (!bannerData?.data?.banner?.url) return null;
     
     return (
-        <div className="relative w-full h-[250px] overflow-hidden">
+        <div className="w-full relative h-[40vh] md:h-[50vh]">
             <Image
                 src={bannerData.data.banner.url}
                 alt={bannerData.data.banner.alternativeText || "Banner imagen"}
                 fill
-                style={{ 
-                    objectFit: "cover",
-                    objectPosition: "center 30%"
-                }}
                 priority
+                style={{ objectFit: "cover" }}
                 sizes="100vw"
             />
         </div>
