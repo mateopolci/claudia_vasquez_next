@@ -21,7 +21,9 @@ export function useCategories() {
     setHasAttemptedFetch(true);
     
     try {
-      const response = await fetch('http://localhost:1337/api/series?fields[0]=id&fields[1]=documentId&fields[2]=name');
+      const domain = 'https://claudiavasquezstrapi-production.up.railway.app/';
+
+      const response = await fetch(`${domain}api/series?fields[0]=id&fields[1]=documentId&fields[2]=name`);
       
       if (!response.ok) {
         console.error('Error fetching categories:', response.statusText);
