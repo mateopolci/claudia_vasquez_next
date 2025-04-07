@@ -6,8 +6,16 @@ import { Instagram, Menu, X } from "lucide-react";
 import NavbarButtons from "./NavbarButtons";
 import Link from "next/link";
 import { useCategories } from "../hooks/useCategories";
+
 function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    // Usar el hook useCategories en el componente principal para cargar las categorías una sola vez
+    const { categories, loading, error, fetchCategories } = useCategories();
+
+    useEffect(() => {
+        // Cargar categorías al inicio para evitar la pantalla de carga cuando se abre el menú móvil
+        fetchCategories();
+    }, [fetchCategories]);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -67,8 +75,13 @@ function Navbar() {
 
             {isMenuOpen && (
                 <div className="fixed inset-0 bg-white z-50 lg:hidden overflow-y-auto pt-20">
-                    <div className="px-4 py-2">
-                        <MobileNavMenu closeMenu={() => setIsMenuOpen(false)} />
+                    <div className="container mx-auto px-4 py-2">
+                        <MobileNavMenu
+                            closeMenu={() => setIsMenuOpen(false)}
+                            categories={categories}
+                            loading={loading}
+                            error={error}
+                        />
                     </div>
                 </div>
             )}
@@ -76,63 +89,128 @@ function Navbar() {
     );
 }
 
-function MobileNavMenu({ closeMenu }: { closeMenu: () => void }) {
-    const { categories, loading, error, fetchCategories } = useCategories();
+function MobileNavMenu({
+    closeMenu,
+    categories,
+    loading,
+    error,
+}: {
+    closeMenu: () => void;
+    categories: any[];
+    loading: boolean;
+    error: any;
+}) {
+    const [showSeries, setShowSeries] = useState(true);
 
-    useEffect(() => {
-        fetchCategories();
-    }, [fetchCategories]);
+    const toggleSeries = (e: React.MouseEvent) => {
+        e.preventDefault();
+        setShowSeries(!showSeries);
+    };
 
     return (
-        <div className="flex flex-col space-y-4">
-            <div className="border-b pb-2">
-                <Link href="/" className="font-medium mb-2 z-10">Portfolio</Link>
-                <ul className="ml-4 space-y-4">
-                    {loading && <li className="py-2">Cargando categorías...</li>}
-                    
-                    {error && (
-                        <li className="py-2 text-red-500">
-                            Error al cargar las categorías
-                        </li>
-                    )}
-                    
-                    {!loading && !error && categories.map((category) => (
-                        <li key={category.id}>
+        <div className="bg-white">
+            <nav className="relative">
+                <ul className="relative space-y-6">
+                    <li className="relative">
+                        <div className="flex items-center mb-4">
                             <Link
-                                href={`/portfolio/${category.documentId}`}
-                                onClick={closeMenu}
-                                className="block py-2 hover:text-claudiapurple transition duration-300"
+                                href="/"
+                                onClick={(e) => {
+                                    // Solo navega, sin prevenir el comportamiento predeterminado
+                                    closeMenu();
+                                }}
+                                className="text-lg font-medium hover:text-claudiapurple transition-colors"
                             >
-                                {category.name}
+                                Portfolio
                             </Link>
-                        </li>
-                    ))}
+                            <button
+                                onClick={toggleSeries}
+                                className="ml-2 p-1 focus:outline-none"
+                                aria-label="Mostrar/ocultar series"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className={`w-3 h-3 fill-current transition-transform duration-300 ${
+                                        showSeries ? "rotate-0" : "-rotate-90"
+                                    }`}
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        {showSeries && (
+                            <div className="pl-2 border-l-2 border-claudiagray">
+                                <p className="text-sm italic text-claudiagray mb-3">
+                                    Series
+                                </p>
+
+                                {loading && (
+                                    <div className="py-2 pl-4">
+                                        Cargando categorías...
+                                    </div>
+                                )}
+
+                                {error && (
+                                    <div className="py-2 pl-4 text-red-500">
+                                        Error al cargar las categorías
+                                    </div>
+                                )}
+
+                                <ul className="space-y-3">
+                                    {!loading &&
+                                        !error &&
+                                        categories.map((category) => (
+                                            <li
+                                                key={category.id}
+                                                className="pl-4"
+                                            >
+                                                <Link
+                                                    href={`/${category.name}`}
+                                                    onClick={closeMenu}
+                                                    className="block py-1 hover:text-claudiapurple transition-colors"
+                                                >
+                                                    {category.name}
+                                                </Link>
+                                            </li>
+                                        ))}
+                                </ul>
+                            </div>
+                        )}
+                    </li>
+
+                    <li className="border-t pt-4">
+                        <Link
+                            href="/bio"
+                            onClick={closeMenu}
+                            className="block text-lg hover:text-claudiapurple transition-colors"
+                        >
+                            Bio
+                        </Link>
+                    </li>
+
+                    <li>
+                        <Link
+                            href="/expo"
+                            onClick={closeMenu}
+                            className="block text-lg hover:text-claudiapurple transition-colors"
+                        >
+                            Expos
+                        </Link>
+                    </li>
+
+                    <li>
+                        <Link
+                            href="/disponibles"
+                            onClick={closeMenu}
+                            className="block text-lg hover:text-claudiapurple transition-colors"
+                        >
+                            Disponibles
+                        </Link>
+                    </li>
                 </ul>
-            </div>
-
-            <Link
-                href="/bio"
-                onClick={closeMenu}
-                className="block py-2 hover:text-claudiapurple transition duration-300"
-            >
-                Bio
-            </Link>
-
-            <Link
-                href="/expo"
-                onClick={closeMenu}
-                className="block py-2 hover:text-claudiapurple transition duration-300"
-            >
-                Expos
-            </Link>
-
-            <Link
-                href="/disponibles"
-                onClick={closeMenu}
-                className="block py-2 hover:text-claudiapurple transition duration-300"
-            >
-                Disponibles
-            </Link>
+            </nav>
         </div>
     );
 }
