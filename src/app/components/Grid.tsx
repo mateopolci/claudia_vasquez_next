@@ -260,7 +260,7 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
                     })()}
             </div>
 
-            <div className="p-4 sm:p-6 md:p-8">
+            <div className="py-8 px-12">
                 <Masonry
                     breakpointCols={breakpointColumnsObj}
                     className="flex w-auto -ml-4"
@@ -274,15 +274,6 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
                             onClick={() => openLightbox(index)}
                         >
                             <div className="group block w-full overflow-hidden rounded-lg bg-gray-100">
-{/*                                 <img
-                                    src={artwork.image?.url}
-                                    alt={
-                                        artwork.image?.alternativeText ||
-                                        artwork.name
-                                    }
-                                    className="w-full object-cover group-hover:scale-110 transition duration-300"
-                                    loading="lazy"
-                                /> */}
                                 <Image
                                     src={artwork.image?.url || ""}
                                     width={500}
