@@ -17,13 +17,13 @@ function GridSkeleton({ title = "Portfolio", count = 12 }: GridSkeletonProps) {
                     <h1 className="text-3xl font-medium mt-8 mb-8">{title}</h1>
                 </div>
             )}
-            <div className="p-22">
+            <div className="py-8 px-4 md:px-12">
                 <ul
                     role="list"
-                    className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
+                    className="grid grid-cols-1 gap-y-6 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 sm:gap-x-6 xl:gap-x-8"
                 >
                     {placeholders.map((placeholder) => (
-                        <li key={placeholder} className="relative">
+                        <li key={placeholder} className="relative mb-4">
                             <div className="skeleton-item group block w-full aspect-square rounded-lg overflow-hidden" />
                             <div className="skeleton-item mt-2 h-4 rounded w-3/4" />
                             <div className="skeleton-item mt-1 h-4 rounded w-1/2" />
@@ -57,6 +57,12 @@ function GridSkeleton({ title = "Portfolio", count = 12 }: GridSkeletonProps) {
                     animation-iteration-count: infinite;
                     animation-name: shimmer;
                     animation-timing-function: linear;
+                }
+
+                @media (max-width: 500px) {
+                    ul {
+                        grid-template-columns: 1fr;
+                    }
                 }
             `}</style>
         </div>
