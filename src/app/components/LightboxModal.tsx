@@ -138,16 +138,145 @@ const LightboxModal = ({
 
             {!isZoomed && (
                 <>
-                    {!isFirstImage && (
+                    {/* Desktop navigation buttons (hidden on smaller screens) */}
+                    <div className="hidden lg:block">
+                        {!isFirstImage && (
+                            <button
+                                onClick={navigatePrev}
+                                className="absolute left-4 text-white p-2 rounded-full hover:bg-white/20 transition"
+                                aria-label="Previous image"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="36"
+                                    height="36"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    className="lucide lucide-chevron-left"
+                                >
+                                    <path d="m15 18-6-6 6-6"></path>
+                                </svg>
+                            </button>
+                        )}
+
+                        {!isLastImage && (
+                            <button
+                                onClick={navigateNext}
+                                className="absolute right-4 text-white p-2 rounded-full hover:bg-white/20 transition"
+                                aria-label="Next image"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="36"
+                                    height="36"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    className="lucide lucide-chevron-right"
+                                >
+                                    <path d="m9 18 6-6-6-6"></path>
+                                </svg>
+                            </button>
+                        )}
+                    </div>
+                </>
+            )}
+
+            <div className="flex flex-col items-center">
+                <div
+                    className={`relative overflow-hidden ${
+                        isZoomed ? "cursor-zoom-out" : "cursor-zoom-in"
+                    } ${
+                        isZoomed
+                            ? "max-w-[95%] max-h-[95%]"
+                            : "max-w-[90%] max-h-[90%]"
+                    }`}
+                    ref={imageContainerRef}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        handleImageClick(e);
+                    }}
+                    onMouseMove={handleMouseMove}
+                >
+                    <img
+                        src={currentImage.url}
+                        alt={currentImage.alt || currentImage.name}
+                        className={`max-h-[80vh] max-w-full object-contain transition-transform duration-100 ${
+                            isZoomed ? "scale-[2]" : ""
+                        }`}
+                        style={
+                            isZoomed
+                                ? {
+                                      transformOrigin: `${
+                                          zoomPosition.x * 100
+                                      }% ${zoomPosition.y * 100}%`,
+                                  }
+                                : {}
+                        }
+                    />
+
+                    {!isZoomed && (
+                        <div className="bg-black/60 text-white p-4 absolute bottom-0 left-0 right-0">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <h3 className="text-lg font-semibold">
+                                        {currentImage.name}
+                                    </h3>
+                                    <div className="flex flex-wrap gap-x-2 text-sm text-gray-300">
+                                        {currentImage.code && (
+                                            <span>{currentImage.code}</span>
+                                        )}
+                                    </div>
+                                </div>
+                                <div>
+                                    {currentImage.year && (
+                                        <span className="italic text-sm text-gray-300">
+                                            {currentImage.year}
+                                        </span>
+                                    )}
+                                    {(currentImage.support ||
+                                        currentImage.size) && (
+                                        <p className="text-sm text-gray-300">
+                                            {currentImage.support}{" "}
+                                            {currentImage.support &&
+                                                currentImage.size &&
+                                                "-"}{" "}
+                                            {currentImage.size}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+                            <p className="text-xs text-gray-400 mt-1">
+                                {index + 1} / {images.length}
+                            </p>
+                        </div>
+                    )}
+                </div>
+
+                {/* Mobile navigation buttons (visible only on smaller screens) */}
+                {!isZoomed && (
+                    <div className="lg:hidden flex justify-center gap-8 mt-4">
                         <button
                             onClick={navigatePrev}
-                            className="absolute left-4 text-white p-2 rounded-full hover:bg-white/20 transition"
+                            disabled={isFirstImage}
+                            className={`text-white p-2 rounded-full hover:bg-white/20 transition ${
+                                isFirstImage
+                                    ? "opacity-40 cursor-not-allowed"
+                                    : ""
+                            }`}
                             aria-label="Previous image"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                width="36"
-                                height="36"
+                                width="32"
+                                height="32"
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 stroke="currentColor"
@@ -159,18 +288,21 @@ const LightboxModal = ({
                                 <path d="m15 18-6-6 6-6"></path>
                             </svg>
                         </button>
-                    )}
 
-                    {!isLastImage && (
                         <button
                             onClick={navigateNext}
-                            className="absolute right-4 text-white p-2 rounded-full hover:bg-white/20 transition"
+                            disabled={isLastImage}
+                            className={`text-white p-2 rounded-full hover:bg-white/20 transition ${
+                                isLastImage
+                                    ? "opacity-40 cursor-not-allowed"
+                                    : ""
+                            }`}
                             aria-label="Next image"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                width="36"
-                                height="36"
+                                width="32"
+                                height="32"
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 stroke="currentColor"
@@ -182,78 +314,6 @@ const LightboxModal = ({
                                 <path d="m9 18 6-6-6-6"></path>
                             </svg>
                         </button>
-                    )}
-                </>
-            )}
-
-            <div
-                className={`relative overflow-hidden ${
-                    isZoomed ? "cursor-zoom-out" : "cursor-zoom-in"
-                } ${
-                    isZoomed
-                        ? "max-w-[95%] max-h-[95%]"
-                        : "max-w-[90%] max-h-[90%]"
-                }`}
-                ref={imageContainerRef}
-                onClick={(e) => {
-                    e.stopPropagation();
-                    handleImageClick(e);
-                }}
-                onMouseMove={handleMouseMove}
-            >
-                <img
-                    src={currentImage.url}
-                    alt={currentImage.alt || currentImage.name}
-                    className={`max-h-[80vh] max-w-full object-contain transition-transform duration-100 ${
-                        isZoomed ? "scale-[2]" : ""
-                    }`}
-                    style={
-                        isZoomed
-                            ? {
-                                  transformOrigin: `${zoomPosition.x * 100}% ${
-                                      zoomPosition.y * 100
-                                  }%`,
-                              }
-                            : {}
-                    }
-                />
-
-                {!isZoomed && (
-                    <div className="bg-black/60 text-white p-4 absolute bottom-0 left-0 right-0">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <h3 className="text-lg font-semibold">
-                                    {currentImage.name}
-                                </h3>
-                                <div className="flex flex-wrap gap-x-2 text-sm text-gray-300">
-                                    {currentImage.code && (
-                                        <span>
-                                            {currentImage.code}
-                                        </span>
-                                    )}
-                                </div>
-                            </div>
-                            <div>
-                                {currentImage.year && (
-                                    <span className="italic text-sm text-gray-300">
-                                        {currentImage.year}
-                                    </span>
-                                )}
-                                {(currentImage.support ||
-                                    currentImage.size) && (
-                                    <p className="text-sm text-gray-300">
-                                        {currentImage.support}{" "}
-                                        {currentImage.support &&
-                                            currentImage.size &&
-                                            "-"}{" "}
-                                        {currentImage.size}
-                                    </p>
-                                )}
-                            </div>
-                        </div>
-                        <p className="text-xs text-gray-400 mt-1">
-                            {index + 1} / {images.length}
-                        </p>
                     </div>
                 )}
             </div>
