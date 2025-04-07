@@ -24,10 +24,25 @@ const LightboxModal = ({
     const [index, setIndex] = useState(currentIndex);
     const [isZoomed, setIsZoomed] = useState(false);
     const [zoomPosition, setZoomPosition] = useState({ x: 0.5, y: 0.5 });
+    const [isLargeScreen, setIsLargeScreen] = useState(false);
     const imageContainerRef = useRef<HTMLDivElement>(null);
 
     const isFirstImage = index === 0;
     const isLastImage = index === images.length - 1;
+
+    useEffect(() => {
+        const checkScreenSize = () => {
+            setIsLargeScreen(window.innerWidth >= 1366);
+        };
+        
+        checkScreenSize();
+        
+        window.addEventListener('resize', checkScreenSize);
+        
+        return () => {
+            window.removeEventListener('resize', checkScreenSize);
+        };
+    }, []);
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -78,7 +93,7 @@ const LightboxModal = ({
     };
 
     const handleImageClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!imageContainerRef.current) return;
+        if (!imageContainerRef.current || !isLargeScreen) return;
 
         if (isZoomed) {
             setIsZoomed(false);
@@ -93,7 +108,7 @@ const LightboxModal = ({
     };
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!isZoomed || !imageContainerRef.current) return;
+        if (!isZoomed || !imageContainerRef.current || !isLargeScreen) return;
 
         const rect = imageContainerRef.current.getBoundingClientRect();
         const x = (e.clientX - rect.left) / rect.width;
@@ -192,7 +207,7 @@ const LightboxModal = ({
             <div className="flex flex-col items-center">
                 <div
                     className={`relative overflow-hidden ${
-                        isZoomed ? "cursor-zoom-out" : "cursor-zoom-in"
+                        isLargeScreen ? (isZoomed ? "cursor-zoom-out" : "cursor-zoom-in") : ""
                     } ${
                         isZoomed
                             ? "max-w-[95%] max-h-[95%]"
