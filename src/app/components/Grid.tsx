@@ -8,6 +8,7 @@ import LightboxModal from "./LightboxModal";
 import Masonry from "react-masonry-css";
 import AlertMessage from "./AlertMessage";
 import { getApiBaseUrl } from "../utils/getApiBaseUrl";
+import Image from "next/image";
 
 interface Artwork {
     id: number;
@@ -69,7 +70,6 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
     const searchParams = useSearchParams();
     const currentPage = Number(searchParams.get("page") || 1);
 
-    //const domain = "https://claudiavasquezstrapi-production.up.railway.app/";
     const domain = getApiBaseUrl();
     const fullEndpoint = `${domain}${endpoint}${
         endpoint.includes("?") ? "&" : "?"
@@ -115,9 +115,6 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
         setIsLoading(true);
         setError(null);
 
-        const startTime = Date.now();
-        const minLoadTime = 1500;
-
         async function fetchArtworks() {
             try {
                 const response = await fetch(fullEndpoint);
@@ -130,17 +127,8 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
 
                 setArtworks(data.data);
                 setPagination(data.meta.pagination);
+                setIsLoading(false);
 
-                const elapsedTime = Date.now() - startTime;
-                const remainingTime = Math.max(0, minLoadTime - elapsedTime);
-
-                if (remainingTime > 0) {
-                    setTimeout(() => {
-                        setIsLoading(false);
-                    }, remainingTime);
-                } else {
-                    setIsLoading(false);
-                }
             } catch (err) {
                 console.error("Error fetching data:", err);
                 setError("No se pudieron cargar las obras");
@@ -152,7 +140,7 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
 
         const safetyTimeout = setTimeout(() => {
             setIsLoading(false);
-        }, 5000);
+        }, 3000);
 
         return () => clearTimeout(safetyTimeout);
     }, [fullEndpoint, currentPage]);
@@ -228,7 +216,7 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
                 return (
                     <p
                         key={blockIndex}
-                        className="text-gray-700 mx-auto max-w-3xl mb-4 px-4 text-justify"
+                        className="text-gray-700 mx-auto max-w-5xl mb-4 px-4 text-justify"
                     >
                         {block.children.map((child, childIndex) => {
                             if (child.text) {
@@ -282,11 +270,11 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
                     {artworks.map((artwork, index) => (
                         <div
                             key={artwork.id}
-                            className="relative mb-4 cursor-pointer"
+                            className="relative mb-4 cursor-pointer min-h[200px]"
                             onClick={() => openLightbox(index)}
                         >
                             <div className="group block w-full overflow-hidden rounded-lg bg-gray-100">
-                                <img
+{/*                                 <img
                                     src={artwork.image?.url}
                                     alt={
                                         artwork.image?.alternativeText ||
@@ -294,8 +282,18 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
                                     }
                                     className="w-full object-cover group-hover:scale-110 transition duration-300"
                                     loading="lazy"
-                                />
-                            </div>
+                                /> */}
+                                <Image
+                                    src={artwork.image?.url || ""}
+                                    width={500}
+                                    height={300}
+                                    alt={
+                                        artwork.image?.alternativeText ||
+                                        artwork.name
+                                    }
+                                    className="w-full object-cover group-hover:scale-110 transition duration-300"
+                                    loading="lazy"
+                                />                            </div>
                             <p className="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">
                                 {artwork.name}
                             </p>

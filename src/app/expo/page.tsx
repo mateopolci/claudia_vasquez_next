@@ -49,7 +49,6 @@ export default function Expo() {
 
         const fetchExpoData = async () => {
             try {
-                //const domain = "https://claudiavasquezstrapi-production.up.railway.app/";
                 const domain = getApiBaseUrl();
                 const expoEndpoint = `${domain}api/expo?fields=id,documentId,details&populate[expo1][fields]=id,url&populate[expo2][fields]=id,url`;
 

@@ -28,7 +28,6 @@ export default function Banner() {
             try {
                 const domain = getApiBaseUrl();
 
-                //const domain = "https://claudiavasquezstrapi-production.up.railway.app/";
                 const bannerEndpoint = `${domain}api/banner?fields[0]=id&populate[banner][fields][0]=url&populate[banner][fields][1]=alternativeText`;
                 
                 const res = await fetch(bannerEndpoint, {

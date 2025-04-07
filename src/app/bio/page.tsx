@@ -86,7 +86,6 @@ export default function Bio() {
     useEffect(() => {
         let isMounted = true;
         const domain = getApiBaseUrl();
-        //const domain = "https://claudiavasquezstrapi-production.up.railway.app/";
 
         const fetchData = async () => {
             try {

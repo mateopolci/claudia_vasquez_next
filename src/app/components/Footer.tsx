@@ -4,7 +4,7 @@ import { Phone, Instagram } from "lucide-react";
 
 function Footer() {
     return (
-        <div className="relative flex flex-col justify-center items-center p-5 text-center bg-gray-100 px-4 sm:px-10 md:px-20 w-full">
+        <div className="relative flex flex-col justify-center items-center p-5 text-center bg-gray-100 px-4 sm:px-10 md:px-20 w-full min-h-[100px]">
             <div className="absolute top-0 left-0 w-full h-[5px] shadow-[0_-2px_4px_rgba(0,0,0,0.1)]"></div>
             <div className="flex flex-col md:flex-row justify-center items-center footerText gap-2 md:gap-0">
                 <div className="flex justify-center items-center md:w-1/3">

@@ -22,7 +22,6 @@ export function useCategories() {
     setHasAttemptedFetch(true);
     
     try {
-      //const domain = 'https://claudiavasquezstrapi-production.up.railway.app/';
       const domain = getApiBaseUrl();
       const response = await fetch(`${domain}api/series?fields[0]=id&fields[1]=documentId&fields[2]=name`);
       
