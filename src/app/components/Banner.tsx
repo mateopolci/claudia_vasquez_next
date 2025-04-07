@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import AlertMessage from "./AlertMessage";
+import { getApiBaseUrl } from "../utils/getApiBaseUrl";
 
 interface BannerImage {
     url: string;
@@ -25,7 +26,9 @@ export default function Banner() {
         
         const fetchBanner = async () => {
             try {
-                const domain = "https://claudiavasquezstrapi-production.up.railway.app/";
+                const domain = getApiBaseUrl();
+
+                //const domain = "https://claudiavasquezstrapi-production.up.railway.app/";
                 const bannerEndpoint = `${domain}api/banner?fields[0]=id&populate[banner][fields][0]=url&populate[banner][fields][1]=alternativeText`;
                 
                 const res = await fetch(bannerEndpoint, {

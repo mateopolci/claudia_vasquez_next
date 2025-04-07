@@ -8,6 +8,7 @@ import ScrollToTop from "../components/ScrollToTop";
 import { Montserrat } from "next/font/google";
 import Image from "next/image";
 import AlertMessage from "../components/AlertMessage";
+import { getApiBaseUrl } from "../utils/getApiBaseUrl";
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -48,7 +49,8 @@ export default function Expo() {
 
         const fetchExpoData = async () => {
             try {
-                const domain = "https://claudiavasquezstrapi-production.up.railway.app/";
+                //const domain = "https://claudiavasquezstrapi-production.up.railway.app/";
+                const domain = getApiBaseUrl();
                 const expoEndpoint = `${domain}api/expo?fields=id,documentId,details&populate[expo1][fields]=id,url&populate[expo2][fields]=id,url`;
 
                 const res = await fetch(expoEndpoint, { next: { revalidate: 3600 } });

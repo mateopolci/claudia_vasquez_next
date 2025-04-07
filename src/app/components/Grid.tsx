@@ -7,6 +7,7 @@ import GridSkeleton from "./GridSkeleton";
 import LightboxModal from "./LightboxModal";
 import Masonry from "react-masonry-css";
 import AlertMessage from "./AlertMessage";
+import { getApiBaseUrl } from "../utils/getApiBaseUrl";
 
 interface Artwork {
     id: number;
@@ -68,7 +69,8 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
     const searchParams = useSearchParams();
     const currentPage = Number(searchParams.get("page") || 1);
 
-    const domain = "https://claudiavasquezstrapi-production.up.railway.app/";
+    //const domain = "https://claudiavasquezstrapi-production.up.railway.app/";
+    const domain = getApiBaseUrl();
     const fullEndpoint = `${domain}${endpoint}${
         endpoint.includes("?") ? "&" : "?"
     }pagination[page]=${currentPage}&pagination[pageSize]=12`;

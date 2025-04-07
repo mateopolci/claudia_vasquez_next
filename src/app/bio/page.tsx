@@ -9,6 +9,7 @@ import { Montserrat } from "next/font/google";
 import Image from "next/image";
 import AlertMessage from "../components/AlertMessage";
 import LiteYoutube from "../components/LiteYoutube";
+import { getApiBaseUrl } from "../utils/getApiBaseUrl";
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -84,7 +85,8 @@ export default function Bio() {
 
     useEffect(() => {
         let isMounted = true;
-        const domain = "https://claudiavasquezstrapi-production.up.railway.app/";
+        const domain = getApiBaseUrl();
+        //const domain = "https://claudiavasquezstrapi-production.up.railway.app/";
 
         const fetchData = async () => {
             try {
