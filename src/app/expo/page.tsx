@@ -83,7 +83,7 @@ export default function Expo() {
             <main className={montserrat.className}>
                 <div className="flex flex-col justify-between min-h-screen items-center">
                     <Navbar />
-                    <div className="container mx-auto py-12 px-22">
+                    <div className="container mx-auto py-12 px-4">
                         <div className="h-[60vh] bg-gray-200 animate-pulse rounded-lg"></div>
                     </div>
                     <Footer />
@@ -97,7 +97,7 @@ export default function Expo() {
             <main className={montserrat.className}>
                 <div className="flex flex-col justify-between min-h-screen items-center">
                     <Navbar />
-                    <div className="container mx-auto py-12 px-22 flex items-center justify-center">
+                    <div className="container mx-auto py-12 px-4 flex items-center justify-center">
                         <div className="h-[50vh] flex items-center justify-center bg-gray-100 w-full">
                             <p className="text-gray-500">No se pudo cargar la información</p>
                         </div>
@@ -129,7 +129,7 @@ export default function Expo() {
                 <Whatsapp />
                 <ScrollToTop />
                 
-                <div className="container mx-auto py-12 px-22">
+                <div className="container mx-auto py-12 px-4">
                     <h1 className="text-3xl font-medium mb-8 text-center">Exhibiciones</h1>
                     
                     <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6 ">

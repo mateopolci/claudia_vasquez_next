@@ -136,7 +136,7 @@ export default function Bio() {
             <main className={montserrat.className}>
                 <div className="flex flex-col justify-between min-h-screen items-center">
                     <Navbar />
-                    <div className="container mx-auto py-12 px-22">
+                    <div className="container mx-auto py-12 px-4">
                         <div className="h-[60vh] bg-gray-200 animate-pulse rounded-lg"></div>
                     </div>
                     <Footer />
@@ -150,7 +150,7 @@ export default function Bio() {
             <main className={montserrat.className}>
                 <div className="flex flex-col justify-between min-h-screen items-center">
                     <Navbar />
-                    <div className="container mx-auto py-12 px-22 flex items-center justify-center">
+                    <div className="container mx-auto py-12 px-4 flex items-center justify-center">
                         <div className="h-[50vh] flex items-center justify-center bg-gray-100 w-full">
                             <p className="text-gray-500">
                                 No se pudo cargar la información
@@ -200,7 +200,7 @@ export default function Bio() {
                     </div>
                 )}
 
-                <div className="container mx-auto py-12 px-22">
+                <div className="container mx-auto py-12 px-4">
                     <h1 className="text-3xl font-medium mb-8 md:text-2xl">
                         Biografía
                     </h1>
@@ -238,9 +238,12 @@ export default function Bio() {
                     </div>
 
                     <div className="w-2/3 aspect-video mb-12 mx-auto">
-                        <LiteYoutube videoId="jxA3MSyfRk4" title="Claudia Vásquez" />
+                        <LiteYoutube
+                            videoId="jxA3MSyfRk4"
+                            title="Claudia Vásquez"
+                        />
                     </div>
-                    
+
                     <h2 className="text-2xl font-medium mb-6">
                         Concepto Artístico
                     </h2>
