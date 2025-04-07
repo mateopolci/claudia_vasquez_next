@@ -2,7 +2,6 @@ import React from "react";
 import { FaWhatsapp } from "react-icons/fa";
 
 function Whatsapp() {
-    // Número de teléfono sin espacios y con formato adecuado
     const phoneNumber = "5491168513268";
     const message = "Hola Claudia, visité tu página web y me interesó una de tus obras. ¿Podrías brindarme más información al respecto?";
     
