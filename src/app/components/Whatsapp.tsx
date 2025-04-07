@@ -2,12 +2,17 @@ import React from "react";
 import { FaWhatsapp } from "react-icons/fa";
 
 function Whatsapp() {
+    // Número de teléfono sin espacios y con formato adecuado
+    const phoneNumber = "5491168513268";
+    const message = "Hola Claudia, visité tu página web y me interesó una de tus obras. ¿Podrías brindarme más información al respecto?";
+    
     return (
         <div>
             <a
-                href="https://api.whatsapp.com/send?phone=+54 9 11 6851-3268&text=Hola%20Claudia%2C%20visité%20tu%20página%20web%20y%20me%20interesó%20una%20de%20tus%20obras.%20¿Podrías%20brindarme%20más%20información%20al%20respecto%3F"
+                href={`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`}
                 className="floatBottomRight flex items-center justify-center"
                 target="_blank"
+                rel="noopener noreferrer"
             >
                 <FaWhatsapp className="fa fa-whatsapp" />
             </a>
