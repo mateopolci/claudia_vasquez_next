@@ -10,7 +10,7 @@ function Footer() {
                 <div className="flex justify-center items-center md:w-1/3">
                     <Phone className="footerIcons md:order-none order-first min-w-[20px]" />
                     <p className="pl-2 whitespace-nowrap text-xs sm:text-sm md:text-base">
-                        +54 9 11 6851 3268
+                        +54 9 11 2887 3109
                     </p>
                 </div>
                 <div className="px-5 my-1 md:my-0 md:w-1/3 flex justify-center">
