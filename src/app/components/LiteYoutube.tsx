@@ -37,6 +37,7 @@ function LiteYoutubeComponent({
             videoid={videoId}
             playlabel={`Play: ${title}`}
             class="w-full h-full rounded-lg overflow-hidden"
+            posterquality="maxresdefault"
         />
     );
 }

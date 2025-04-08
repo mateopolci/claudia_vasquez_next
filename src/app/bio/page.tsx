@@ -237,7 +237,7 @@ export default function Bio() {
                         ))}
                     </div>
 
-                    <div className="w-2/3 aspect-video mb-12 mx-auto">
+                    <div className="w-full 2/3 aspect-video mb-12 mx-auto">
                         <LiteYoutube
                             videoId="jxA3MSyfRk4"
                             title="Claudia Vásquez"

@@ -37,7 +37,10 @@ function Navbar() {
         <>
             <div className="lg:p-5 w-full flex items-center shadow-lg rounded-b px-4 lg:px-22 py-3 relative z-[60]">
                 <div className="w-1/4">
-                    <Link href="/">
+                    <Link
+                        href="/"
+                        onClick={() => isMenuOpen && setIsMenuOpen(false)}
+                    >
                         <Image
                             src={Firma}
                             alt="Firma de Claudia Vásquez"
