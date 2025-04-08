@@ -3,12 +3,15 @@ import { FaWhatsapp } from "react-icons/fa";
 
 function Whatsapp() {
     const phoneNumber = "5491168513268";
-    const message = "Hola Claudia, visité tu página web y me interesó una de tus obras. ¿Podrías brindarme más información al respecto?";
-    
+    const message =
+        "Hola Claudia, visité tu página web y me interesó una de tus obras. ¿Podrías brindarme más información al respecto?";
+
     return (
         <div>
             <a
-                href={`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`}
+                href={`https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+                    message
+                )}`}
                 className="floatBottomRight flex items-center justify-center"
                 target="_blank"
                 rel="noopener noreferrer"

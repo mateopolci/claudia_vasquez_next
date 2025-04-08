@@ -34,13 +34,13 @@ const LightboxModal = ({
         const checkScreenSize = () => {
             setIsLargeScreen(window.innerWidth >= 1366);
         };
-        
+
         checkScreenSize();
-        
-        window.addEventListener('resize', checkScreenSize);
-        
+
+        window.addEventListener("resize", checkScreenSize);
+
         return () => {
-            window.removeEventListener('resize', checkScreenSize);
+            window.removeEventListener("resize", checkScreenSize);
         };
     }, []);
 
@@ -153,7 +153,6 @@ const LightboxModal = ({
 
             {!isZoomed && (
                 <>
-                    {/* Desktop navigation buttons (hidden on smaller screens) */}
                     <div className="hidden lg:block">
                         {!isFirstImage && (
                             <button
@@ -207,7 +206,11 @@ const LightboxModal = ({
             <div className="flex flex-col items-center">
                 <div
                     className={`relative overflow-hidden ${
-                        isLargeScreen ? (isZoomed ? "cursor-zoom-out" : "cursor-zoom-in") : ""
+                        isLargeScreen
+                            ? isZoomed
+                                ? "cursor-zoom-out"
+                                : "cursor-zoom-in"
+                            : ""
                     } ${
                         isZoomed
                             ? "max-w-[95%] max-h-[95%]"
@@ -275,7 +278,6 @@ const LightboxModal = ({
                     )}
                 </div>
 
-                {/* Mobile navigation buttons (visible only on smaller screens) */}
                 {!isZoomed && (
                     <div className="lg:hidden flex justify-center gap-8 mt-4">
                         <button

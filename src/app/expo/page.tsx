@@ -52,7 +52,9 @@ export default function Expo() {
                 const domain = getApiBaseUrl();
                 const expoEndpoint = `${domain}api/expo?fields=id,documentId,details&populate[expo1][fields]=id,url&populate[expo2][fields]=id,url`;
 
-                const res = await fetch(expoEndpoint, { next: { revalidate: 3600 } });
+                const res = await fetch(expoEndpoint, {
+                    next: { revalidate: 3600 },
+                });
 
                 if (!res.ok) throw new Error(`Error: ${res.status}`);
 
@@ -99,13 +101,15 @@ export default function Expo() {
                     <Navbar />
                     <div className="container mx-auto py-12 px-4 flex items-center justify-center">
                         <div className="h-[50vh] flex items-center justify-center bg-gray-100 w-full">
-                            <p className="text-gray-500">No se pudo cargar la información</p>
+                            <p className="text-gray-500">
+                                No se pudo cargar la información
+                            </p>
                         </div>
                     </div>
                     <Footer />
-                    <AlertMessage 
+                    <AlertMessage
                         type="error"
-                        title="Error" 
+                        title="Error"
                         text={error}
                         timer={3000}
                     />
@@ -121,66 +125,76 @@ export default function Expo() {
     const halfExhibitionLength = Math.ceil(details.length / 2);
     const firstHalf = details.slice(0, halfExhibitionLength);
     const secondHalf = details.slice(halfExhibitionLength);
-    
+
     return (
         <main className={montserrat.className}>
             <div className="flex flex-col justify-between min-h-screen items-center">
                 <Navbar />
                 <Whatsapp />
                 <ScrollToTop />
-                
+
                 <div className="container mx-auto py-12 px-4">
-                    <h1 className="text-3xl font-medium mb-8 text-center">Exhibiciones</h1>
-                    
+                    <h1 className="text-3xl font-medium mb-8 text-center">
+                        Exhibiciones
+                    </h1>
+
                     <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6 ">
                         <div>
                             {firstHalf.map((paragraph, index) => (
                                 <p key={index} className="mb-4 text-lg">
-                                    {paragraph.children.map((child, childIndex) => (
-                                        <span key={childIndex}>{child.text}</span>
-                                    ))}
+                                    {paragraph.children.map(
+                                        (child, childIndex) => (
+                                            <span key={childIndex}>
+                                                {child.text}
+                                            </span>
+                                        )
+                                    )}
                                 </p>
                             ))}
                         </div>
-                        
+
                         {expo1 && (
                             <div className="relative w-full min-h-96 md:h-full">
-                                <Image 
+                                <Image
                                     src={expo1.url}
                                     alt="Exhibición de arte 1"
                                     fill
-                                    style={{objectFit: "cover"}}
+                                    style={{ objectFit: "cover" }}
                                     className="rounded-lg"
                                 />
                             </div>
                         )}
                     </div>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {expo2 && (
                             <div className="relative w-full min-h-96 md:h-full order-2 md:order-1">
-                                <Image 
+                                <Image
                                     src={expo2.url}
                                     alt="Exhibición de arte 2"
                                     fill
-                                    style={{objectFit: "cover"}}
+                                    style={{ objectFit: "cover" }}
                                     className="rounded-lg"
                                 />
                             </div>
                         )}
-                        
+
                         <div className="order-1 md:order-2">
                             {secondHalf.map((paragraph, index) => (
                                 <p key={index} className="mb-4 text-lg">
-                                    {paragraph.children.map((child, childIndex) => (
-                                        <span key={childIndex}>{child.text}</span>
-                                    ))}
+                                    {paragraph.children.map(
+                                        (child, childIndex) => (
+                                            <span key={childIndex}>
+                                                {child.text}
+                                            </span>
+                                        )
+                                    )}
                                 </p>
                             ))}
                         </div>
                     </div>
                 </div>
-                
+
                 <Footer />
             </div>
         </main>

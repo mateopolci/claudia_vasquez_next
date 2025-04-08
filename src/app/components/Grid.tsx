@@ -128,7 +128,6 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
                 setArtworks(data.data);
                 setPagination(data.meta.pagination);
                 setIsLoading(false);
-
             } catch (err) {
                 console.error("Error fetching data:", err);
                 setError("No se pudieron cargar las obras");
@@ -284,7 +283,8 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
                                     }
                                     className="w-full object-cover group-hover:scale-110 transition duration-300"
                                     loading="lazy"
-                                />                            </div>
+                                />{" "}
+                            </div>
                             <p className="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">
                                 {artwork.name}
                             </p>

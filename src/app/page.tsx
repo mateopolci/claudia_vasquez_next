@@ -11,10 +11,10 @@ import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 
 const DynamicBanner = dynamic(() => import("./components/Banner"), {
-  ssr: false,
-  loading: () => (
-    <div className="relative w-full h-[300px] md:h-[400px] lg:h-[500px] bg-gray-200 animate-pulse"></div>
-  ),
+    ssr: false,
+    loading: () => (
+        <div className="relative w-full h-[300px] md:h-[400px] lg:h-[500px] bg-gray-200 animate-pulse"></div>
+    ),
 });
 
 const montserrat = Montserrat({
@@ -24,15 +24,15 @@ const montserrat = Montserrat({
 
 function HomeContent() {
     const searchParams = useSearchParams();
-    const pageParam = searchParams.get('page');
+    const pageParam = searchParams.get("page");
     const currentPage = pageParam ? parseInt(pageParam) : 1;
-    
+
     const isFirstPage = currentPage === 1;
 
     return (
         <>
             {isFirstPage && <DynamicBanner />}
-            
+
             <Grid
                 endpoint="api/artworks?fields[0]=id&fields[1]=documentId&fields[2]=name&fields[3]=support&fields[4]=size&fields[5]=year&fields[6]=code&populate[image][fields][0]=url&populate[image][fields][1]=alternativeText&sort=year:desc"
                 title="Portfolio"
@@ -48,15 +48,17 @@ export default function Home() {
                 <Navbar />
                 <Whatsapp />
                 <ScrollToTop />
-                
-                <Suspense fallback={
-                    <div className="container mx-auto py-12 px-4">
-                        <div className="h-[60vh] bg-gray-200 animate-pulse rounded-lg"></div>
-                    </div>
-                }>
+
+                <Suspense
+                    fallback={
+                        <div className="container mx-auto py-12 px-4">
+                            <div className="h-[60vh] bg-gray-200 animate-pulse rounded-lg"></div>
+                        </div>
+                    }
+                >
                     <HomeContent />
                 </Suspense>
-                
+
                 <Footer />
             </div>
         </main>

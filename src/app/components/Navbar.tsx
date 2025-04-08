@@ -9,11 +9,9 @@ import { useCategories } from "../hooks/useCategories";
 
 function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    // Usar el hook useCategories en el componente principal para cargar las categorías una sola vez
     const { categories, loading, error, fetchCategories } = useCategories();
 
     useEffect(() => {
-        // Cargar categorías al inicio para evitar la pantalla de carga cuando se abre el menú móvil
         fetchCategories();
     }, [fetchCategories]);
 
@@ -35,7 +33,7 @@ function Navbar() {
 
     return (
         <>
-            <div className="lg:p-5 w-full flex items-center shadow-lg rounded-b px-4 lg:px-22 py-3 relative z-[60]">
+            <div className="lg:p-5 w-full flex items-center shadow-lg rounded-b px-4 lg:px-22 py-3 z-[60] bg-white sticky top-0">
                 <div className="w-1/4">
                     <Link
                         href="/"
@@ -119,7 +117,6 @@ function MobileNavMenu({
                             <Link
                                 href="/"
                                 onClick={(e) => {
-                                    // Solo navega, sin prevenir el comportamiento predeterminado
                                     closeMenu();
                                 }}
                                 className="text-lg font-medium hover:text-claudiapurple transition-colors"

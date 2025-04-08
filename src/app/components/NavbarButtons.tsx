@@ -21,7 +21,7 @@ function NavbarButtons() {
         <div className="bg-white">
             <nav className="lg:flex lg:px-4 lg:items-center lg:relative">
                 <ul className="lg:px-2 ml-auto lg:flex lg:space-x-2 absolute lg:relative top-full left-0 right-0">
-                    <li 
+                    <li
                         className="relative parent"
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
@@ -40,8 +40,10 @@ function NavbarButtons() {
                             </svg>
                         </Link>
                         <ul className="py-2 child transition duration-300 lg:absolute top-full lg:w-72 bg-white lg:shadow-[-5px_15px_15px_rgba(0,0,0,0.1),15px_15px_15px_rgba(0,0,0,0.1)] lg:rounded-b">
-                            <p className="px-5 pt-3 text-sm italic text-claudiagray">Series</p>
-                            
+                            <p className="px-5 pt-3 text-sm italic text-claudiagray">
+                                Series
+                            </p>
+
                             {loading && (
                                 <li className="px-4 py-2">
                                     <div className="flex p-1">
@@ -49,7 +51,7 @@ function NavbarButtons() {
                                     </div>
                                 </li>
                             )}
-                            
+
                             {error && (
                                 <li className="px-4 py-2">
                                     <div className="flex p-1 text-red-500">
@@ -57,17 +59,19 @@ function NavbarButtons() {
                                     </div>
                                 </li>
                             )}
-                            
-                            {!loading && !error && categories.map((category) => (
-                                <li key={category.id} className="px-4 py-2">
-                                    <Link
-                                        href={`/${category.name}`}
-                                        className="flex hover:bg-claudiapurple hover:text-claudiawhite p-1 transition duration-300 rounded-xs"
-                                    >
-                                        {category.name}
-                                    </Link>
-                                </li>
-                            ))}
+
+                            {!loading &&
+                                !error &&
+                                categories.map((category) => (
+                                    <li key={category.id} className="px-4 py-2">
+                                        <Link
+                                            href={`/${category.name}`}
+                                            className="flex hover:bg-claudiapurple hover:text-claudiawhite p-1 transition duration-300 rounded-xs"
+                                        >
+                                            {category.name}
+                                        </Link>
+                                    </li>
+                                ))}
                         </ul>
                     </li>
                     <li>

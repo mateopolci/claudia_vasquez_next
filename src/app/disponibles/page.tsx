@@ -15,38 +15,38 @@ const montserrat = Montserrat({
 });
 
 function Disponibles() {
-  const [mounted, setMounted] = useState(false);
+    const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-  
-  const endpoint = "api/artworks?fields[0]=id&fields[1]=documentId&fields[2]=name&fields[3]=support&fields[4]=size&fields[5]=year&fields[6]=code&populate[image][fields][0]=url&populate[image][fields][1]=alternativeText&filters[available][$eq]=true&sort=year:desc";
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
-  return (
-    <main className={montserrat.className}>
-      <div className="flex flex-col justify-between min-h-screen items-center">
-        <Navbar />
-        <Whatsapp />
-        <ScrollToTop />
-        
-        <div className="container mx-auto py-12 px-4">
-          <h1 className="text-3xl font-medium mb-8 text-center">Obras Disponibles</h1>
-          
-          {!mounted ? (
-            <GridSkeleton title="" count={12} />
-          ) : (
-            <Grid
-              endpoint={endpoint}
-              title=""
-            />
-          )}
-        </div>
-        
-        <Footer />
-      </div>
-    </main>
-  );
+    const endpoint =
+        "api/artworks?fields[0]=id&fields[1]=documentId&fields[2]=name&fields[3]=support&fields[4]=size&fields[5]=year&fields[6]=code&populate[image][fields][0]=url&populate[image][fields][1]=alternativeText&filters[available][$eq]=true&sort=year:desc";
+
+    return (
+        <main className={montserrat.className}>
+            <div className="flex flex-col justify-between min-h-screen items-center">
+                <Navbar />
+                <Whatsapp />
+                <ScrollToTop />
+
+                <div className="container mx-auto py-12 px-4">
+                    <h1 className="text-3xl font-medium mb-8 text-center">
+                        Obras Disponibles
+                    </h1>
+
+                    {!mounted ? (
+                        <GridSkeleton title="" count={12} />
+                    ) : (
+                        <Grid endpoint={endpoint} title="" />
+                    )}
+                </div>
+
+                <Footer />
+            </div>
+        </main>
+    );
 }
 
 export default Disponibles;

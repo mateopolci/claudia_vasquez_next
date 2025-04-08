@@ -8,23 +8,26 @@ function ScrollToTop() {
     const fullyVisibleAt = 35; // Totalmente visible al 35%
 
     const handleScroll = () => {
-        const documentHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrollPercent = documentHeight > 0 ? (window.scrollY / documentHeight) * 100 : 0;
-        
+        const documentHeight =
+            document.documentElement.scrollHeight -
+            document.documentElement.clientHeight;
+        const scrollPercent =
+            documentHeight > 0 ? (window.scrollY / documentHeight) * 100 : 0;
+
         setScrollProgress(scrollPercent);
     };
 
     const scrollToTop = () => {
         window.scrollTo({
             top: 0,
-            behavior: "smooth"
+            behavior: "smooth",
         });
     };
 
     useEffect(() => {
         window.addEventListener("scroll", handleScroll);
         handleScroll();
-        
+
         return () => {
             window.removeEventListener("scroll", handleScroll);
         };
@@ -33,29 +36,33 @@ function ScrollToTop() {
     const calculateOpacity = () => {
         if (scrollProgress <= startShowingAt) return 0;
         if (scrollProgress >= fullyVisibleAt) return 1;
-        
-        const calculatedOpacity = (scrollProgress - startShowingAt) / (fullyVisibleAt - startShowingAt);
-        
+
+        const calculatedOpacity =
+            (scrollProgress - startShowingAt) /
+            (fullyVisibleAt - startShowingAt);
+
         if (isNaN(calculatedOpacity) || calculatedOpacity < 0) {
             return 0;
         }
         if (calculatedOpacity > 1) {
             return 1;
         }
-        
+
         return calculatedOpacity;
     };
 
     const buttonStyle = {
         opacity: calculateOpacity(),
-        pointerEvents: scrollProgress > startShowingAt ? 'auto' : 'none',
-        transform: `translateY(${scrollProgress > startShowingAt ? 0 : '20px'})`
+        pointerEvents: scrollProgress > startShowingAt ? "auto" : "none",
+        transform: `translateY(${
+            scrollProgress > startShowingAt ? 0 : "20px"
+        })`,
     } as React.CSSProperties;
 
     return (
-        <button 
-            className="button z-100" 
-            onClick={scrollToTop} 
+        <button
+            className="button z-100"
+            onClick={scrollToTop}
             aria-label="Volver al inicio"
             style={buttonStyle}
         >
