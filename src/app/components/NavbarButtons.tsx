@@ -30,7 +30,7 @@ function NavbarButtons() {
                             href="/"
                             className="flex justify-between lg:inline-flex py-4 px-2 mx-2 items-center hover:text-claudiapurple space-x-2"
                         >
-                            <span>Portfolio</span>
+                            <span>Galería</span>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="w-3 h-3 fill-current"

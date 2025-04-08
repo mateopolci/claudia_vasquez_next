@@ -54,7 +54,7 @@ interface GridProps {
     title?: string;
 }
 
-function Grid({ endpoint, title = "Portfolio" }: GridProps) {
+function Grid({ endpoint, title = "Galería" }: GridProps) {
     const [artworks, setArtworks] = useState<Artwork[]>([]);
     const [pagination, setPagination] = useState<PaginationData | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -76,7 +76,7 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
     }pagination[page]=${currentPage}&pagination[pageSize]=12`;
 
     useEffect(() => {
-        if (title !== "Portfolio" && title !== "Disponibles") {
+        if (title !== "Galería" && title !== "Disponibles") {
             setLoadingDescription(true);
 
             const fetchSeriesDescription = async () => {

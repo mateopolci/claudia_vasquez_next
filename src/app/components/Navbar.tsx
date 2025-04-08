@@ -38,11 +38,13 @@ function Navbar() {
                     <Link
                         href="/"
                         onClick={() => isMenuOpen && setIsMenuOpen(false)}
+                        className="inline-block"
                     >
                         <Image
                             src={Firma}
                             alt="Firma de Claudia Vásquez"
                             className="w-32 lg:w-44"
+                            style={{ display: 'block' }}
                         />
                     </Link>
                 </div>
@@ -121,7 +123,7 @@ function MobileNavMenu({
                                 }}
                                 className="text-lg font-medium hover:text-claudiapurple transition-colors"
                             >
-                                Portfolio
+                                Galería
                             </Link>
                             <button
                                 onClick={toggleSeries}

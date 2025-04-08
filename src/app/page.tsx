@@ -35,7 +35,7 @@ function HomeContent() {
 
             <Grid
                 endpoint="api/artworks?fields[0]=id&fields[1]=documentId&fields[2]=name&fields[3]=support&fields[4]=size&fields[5]=year&fields[6]=code&populate[image][fields][0]=url&populate[image][fields][1]=alternativeText&sort=year:desc"
-                title="Portfolio"
+                title="Galería"
             />
         </>
     );
