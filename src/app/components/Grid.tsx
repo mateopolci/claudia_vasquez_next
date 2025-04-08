@@ -145,12 +145,12 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
     }, [fullEndpoint, currentPage]);
 
     const breakpointColumnsObj = {
-        default: 4,
-        1280: 4,
-        1024: 3,
+        default: 3,
+        1280: 3,
+        1024: 2,
         768: 2,
         640: 2,
-        500: 1,
+        560: 1,
     };
 
     const masonryStyles = {
@@ -246,7 +246,7 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
     };
 
     return (
-        <div>
+        <div className="w-full">
             <div className="w-full flex flex-col justify-center items-center">
                 <h1 className="text-3xl font-medium mt-8">{title}</h1>
 
@@ -259,7 +259,7 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
                     })()}
             </div>
 
-            <div className="py-8 px-12">
+            <div className="w-full max-w-[1024px] mx-auto py-8 px-4">
                 <Masonry
                     breakpointCols={breakpointColumnsObj}
                     className="flex w-auto -ml-4"
@@ -269,21 +269,33 @@ function Grid({ endpoint, title = "Portfolio" }: GridProps) {
                     {artworks.map((artwork, index) => (
                         <div
                             key={artwork.id}
-                            className="relative mb-4 cursor-pointer min-h[200px]"
+                            className="relative mb-6 cursor-pointer"
                             onClick={() => openLightbox(index)}
                         >
                             <div className="group block w-full overflow-hidden rounded-lg bg-gray-100">
-                                <Image
-                                    src={artwork.image?.url || ""}
-                                    width={500}
-                                    height={300}
-                                    alt={
-                                        artwork.image?.alternativeText ||
-                                        artwork.name
-                                    }
-                                    className="w-full object-cover group-hover:scale-110 transition duration-300"
-                                    loading="lazy"
-                                />{" "}
+                                <div
+                                    className="aspect-[3/4] w-full relative"
+                                    style={{
+                                        height: "400px",
+                                    }}
+                                >
+                                    <Image
+                                        src={artwork.image?.url || ""}
+                                        alt={
+                                            artwork.image?.alternativeText ||
+                                            artwork.name
+                                        }
+                                        className="object-cover group-hover:scale-110 transition duration-300"
+                                        loading="lazy"
+                                        fill
+                                        sizes="(max-width: 500px) 90vw, 
+                                               (max-width: 640px) 45vw, 
+                                               (max-width: 768px) 45vw, 
+                                               (max-width: 1024px) 30vw, 
+                                               (max-width: 1280px) 30vw, 
+                                               30vw"
+                                    />
+                                </div>
                             </div>
                             <p className="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">
                                 {artwork.name}
