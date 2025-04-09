@@ -10,6 +10,7 @@ import Image from "next/image";
 import AlertMessage from "../components/AlertMessage";
 import LiteYoutube from "../components/LiteYoutube";
 import { getApiBaseUrl } from "../utils/getApiBaseUrl";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -82,18 +83,60 @@ export default function Bio() {
     const [bannerData, setBannerData] = useState<BannerResponse | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const lang = searchParams.get("lang") || "es";
+
+    const texts = {
+        es: {
+            biography: "Biografía",
+            artisticConcept: "Concepto Artístico",
+            loadingError: "No se pudo cargar la información",
+            portraitAlt: "Retrato de Claudia Vásquez",
+            conceptAlt: "Obra conceptual de Claudia Vásquez",
+            bannerAlt: "Claudia Vásquez - Banner de biografía",
+        },
+        en: {
+            biography: "Biography",
+            artisticConcept: "Statement",
+            loadingError: "Could not load the information",
+            portraitAlt: "Portrait of Claudia Vásquez",
+            conceptAlt: "Conceptual work by Claudia Vásquez",
+            bannerAlt: "Claudia Vásquez - Biography Banner",
+        },
+    };
+
+    const t = texts[lang === "en" ? "en" : "es"];
+
+    const toggleLanguage = () => {
+        const newLang = lang === "en" ? "es" : "en";
+        router.push(`/bio?lang=${newLang}`);
+    };
+    useEffect(() => {
+        if (typeof window !== "undefined" && !searchParams.get("lang")) {
+            const browserLang = navigator.language.toLowerCase();
+            const userPreferredLang = browserLang.startsWith("es") ? "es" : "en";
+            
+            if (userPreferredLang !== lang) {
+                router.replace(`/bio?lang=${userPreferredLang}`);
+            }
+        }
+    }, []);
 
     useEffect(() => {
         let isMounted = true;
         const domain = getApiBaseUrl();
+        setLoading(true);
 
         const fetchData = async () => {
             try {
+                const endpoint =
+                    lang === "en"
+                        ? `${domain}api/bio?fields=biography_en,art_concept_en&populate[bio][fields]=id,url&populate[concept][fields]=id,url`
+                        : `${domain}api/bio?fields=biography,art_concept&populate[bio][fields]=id,url&populate[concept][fields]=id,url`;
+
                 const [bioRes, bannerRes] = await Promise.all([
-                    fetch(
-                        `${domain}api/bio?fields=biography,art_concept&populate[bio][fields]=id,url&populate[concept][fields]=id,url`,
-                        { next: { revalidate: 3600 } }
-                    ),
+                    fetch(endpoint, { next: { revalidate: 3600 } }),
                     fetch(
                         `${domain}api/banner?populate[bannerBio][fields][0]=alternativeText&populate[bannerBio][fields][1]=url`,
                         { next: { revalidate: 3600 } }
@@ -110,6 +153,15 @@ export default function Bio() {
                 const bioData = await bioRes.json();
                 const bannerData = await bannerRes.json();
 
+                if (lang === "en" && bioData?.data) {
+                    bioData.data = {
+                        biography: bioData.data.biography_en || [],
+                        art_concept: bioData.data.art_concept_en || [],
+                        bio: bioData.data.bio,
+                        concept: bioData.data.concept,
+                    };
+                }
+
                 if (isMounted) {
                     setBioData(bioData);
                     setBannerData(bannerData);
@@ -118,7 +170,7 @@ export default function Bio() {
             } catch (err) {
                 console.error("Failed to fetch data:", err);
                 if (isMounted) {
-                    setError("No se pudo cargar la información");
+                    setError(t.loadingError);
                     setLoading(false);
                 }
             }
@@ -129,7 +181,7 @@ export default function Bio() {
         return () => {
             isMounted = false;
         };
-    }, []);
+    }, [lang, t.loadingError]);
 
     if (loading) {
         return (
@@ -152,9 +204,7 @@ export default function Bio() {
                     <Navbar />
                     <div className="container mx-auto py-12 px-4 flex items-center justify-center">
                         <div className="h-[50vh] flex items-center justify-center bg-gray-100 w-full">
-                            <p className="text-gray-500">
-                                No se pudo cargar la información
-                            </p>
+                            <p className="text-gray-500">{t.loadingError}</p>
                         </div>
                     </div>
                     <Footer />
@@ -189,10 +239,7 @@ export default function Bio() {
                     <div className="w-full relative h-[40vh] md:h-[50vh]">
                         <Image
                             src={banner.url}
-                            alt={
-                                banner.alternativeText ||
-                                "Claudia Vásquez - Banner de biografía"
-                            }
+                            alt={banner.alternativeText || t.bannerAlt}
                             fill
                             priority
                             style={{ objectFit: "cover" }}
@@ -201,9 +248,17 @@ export default function Bio() {
                 )}
 
                 <div className="container mx-auto py-12 px-4">
-                    <h1 className="text-3xl font-medium mb-8 md:text-2xl">
-                        Biografía
-                    </h1>
+                    <div className="flex justify-between items-center mb-8">
+                        <h1 className="text-3xl font-medium md:text-2xl">
+                            {t.biography}
+                        </h1>
+                        <button
+                            onClick={toggleLanguage}
+                            className="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded text-sm transition duration-300 "
+                        >
+                            {lang === "en" ? "Español" : "English"}
+                        </button>
+                    </div>
 
                     <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-1">
@@ -219,7 +274,7 @@ export default function Bio() {
                             <div className="relative w-full h-80 md:h-full min-h-[300px] overflow-hidden rounded-lg">
                                 <Image
                                     src={bio.url}
-                                    alt="Retrato de Claudia Vásquez"
+                                    alt={t.portraitAlt}
                                     fill
                                     style={{ objectFit: "cover" }}
                                     className="rounded-lg"
@@ -245,7 +300,7 @@ export default function Bio() {
                     </div>
 
                     <h2 className="text-2xl font-medium mb-6">
-                        Concepto Artístico
+                        {t.artisticConcept}
                     </h2>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -253,7 +308,7 @@ export default function Bio() {
                             <div className="relative w-full h-80 md:h-full min-h-[300px] order-2 md:order-1 overflow-hidden rounded-lg">
                                 <Image
                                     src={concept.url}
-                                    alt="Obra conceptual de Claudia Vásquez"
+                                    alt={t.conceptAlt}
                                     fill
                                     style={{ objectFit: "cover" }}
                                     className="rounded-lg"
