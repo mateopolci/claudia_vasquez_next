@@ -252,7 +252,7 @@ function BioContent() {
                     </h1>
                     <button
                         onClick={toggleLanguage}
-                        className="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded text-sm transition duration-300 "
+                        className="px-3 py-1 bg-gray-100 hover:bg-claudiapurple hover:text-claudiawhite rounded text-sm transition duration-300 cursor-pointer"
                     >
                         {lang === "en" ? "Español" : "English"}
                     </button>
