@@ -21,16 +21,25 @@ function NavbarButtons() {
         <div className="bg-white">
             <nav className="lg:flex lg:px-4 lg:items-center lg:relative">
                 <ul className="lg:px-2 ml-auto lg:flex lg:space-x-2 absolute lg:relative top-full left-0 right-0">
+                    <li>
+                        <Link
+                            href="/"
+                            className="flex lg:inline-flex py-4 px-2 mx-2 items-center hover:text-claudiapurple"
+                        >
+                            <span>Galería</span>
+                        </Link>
+                    </li>
                     <li
                         className="relative parent"
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
                     >
                         <Link
-                            href="/"
+                            href="#"
                             className="flex justify-between lg:inline-flex py-4 px-2 mx-2 items-center hover:text-claudiapurple space-x-2"
+                            onClick={(e) => e.preventDefault()}
                         >
-                            <span>Galería</span>
+                            <span>Series</span>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="w-3 h-3 fill-current"
@@ -40,10 +49,6 @@ function NavbarButtons() {
                             </svg>
                         </Link>
                         <ul className="py-2 child transition duration-300 lg:absolute top-full lg:w-72 bg-white lg:shadow-[-5px_15px_15px_rgba(0,0,0,0.1),15px_15px_15px_rgba(0,0,0,0.1)] lg:rounded-b">
-                            <p className="px-5 pt-3 text-sm italic text-claudiagray">
-                                Series
-                            </p>
-
                             {loading && (
                                 <li className="px-4 py-2">
                                     <div className="flex p-1">

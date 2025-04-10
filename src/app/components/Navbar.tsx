@@ -114,17 +114,19 @@ function MobileNavMenu({
         <div className="bg-white">
             <nav className="relative">
                 <ul className="relative space-y-6">
+                    <li>
+                        <Link
+                            href="/"
+                            onClick={closeMenu}
+                            className="block text-lg hover:text-claudiapurple transition-colors"
+                        >
+                            Galería
+                        </Link>
+                    </li>
+                    
                     <li className="relative">
                         <div className="flex items-center mb-4">
-                            <Link
-                                href="/"
-                                onClick={(e) => {
-                                    closeMenu();
-                                }}
-                                className="text-lg font-medium hover:text-claudiapurple transition-colors"
-                            >
-                                Galería
-                            </Link>
+                            <span className="text-lg font-medium">Series</span>
                             <button
                                 onClick={toggleSeries}
                                 className="ml-2 p-1 focus:outline-none"
@@ -144,10 +146,6 @@ function MobileNavMenu({
 
                         {showSeries && (
                             <div className="pl-2 border-l-2 border-claudiagray">
-                                <p className="text-sm italic text-claudiagray mb-3">
-                                    Series
-                                </p>
-
                                 {loading && (
                                     <div className="py-2 pl-4">
                                         Cargando categorías...
