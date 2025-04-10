@@ -161,11 +161,14 @@ const LightboxModal = ({
 
             {!isZoomed && (
                 <>
-                    <div className="hidden lg:block">
+                    <div className="hidden lg:block absolute inset-0 pointer-events-none">
                         {!isFirstImage && (
                             <button
-                                onClick={navigatePrev}
-                                className="absolute left-4 text-white p-2 rounded-full hover:bg-white/20 transition"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigatePrev();
+                                }}
+                                className="absolute left-4 text-white p-2 rounded-full hover:bg-white/20 transition pointer-events-auto"
                                 aria-label="Previous image"
                             >
                                 <svg
@@ -187,8 +190,11 @@ const LightboxModal = ({
 
                         {!isLastImage && (
                             <button
-                                onClick={navigateNext}
-                                className="absolute right-4 text-white p-2 rounded-full hover:bg-white/20 transition"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigateNext();
+                                }}
+                                className="absolute right-4 text-white p-2 rounded-full hover:bg-white/20 transition pointer-events-auto"
                                 aria-label="Next image"
                             >
                                 <svg
@@ -300,11 +306,14 @@ const LightboxModal = ({
                 )}
 
                 {!isZoomed && (
-                    <div className="lg:hidden fixed bottom-4 left-0 right-0 flex justify-center gap-8">
+                    <div className="lg:hidden fixed bottom-4 left-0 right-0 flex justify-center gap-8 pointer-events-none">
                         <button
-                            onClick={navigatePrev}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                navigatePrev();
+                            }}
                             disabled={isFirstImage}
-                            className={`!text-white p-2 rounded-full hover:bg-white/20 transition ${
+                            className={`!text-white p-2 rounded-full hover:bg-white/20 transition pointer-events-auto ${
                                 isFirstImage
                                     ? "opacity-40 cursor-not-allowed"
                                     : ""
@@ -328,9 +337,12 @@ const LightboxModal = ({
                         </button>
 
                         <button
-                            onClick={navigateNext}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                navigateNext();
+                            }}
                             disabled={isLastImage}
-                            className={`text-white p-2 rounded-full hover:bg-white/20 transition ${
+                            className={`text-white p-2 rounded-full hover:bg-white/20 transition pointer-events-auto ${
                                 isLastImage
                                     ? "opacity-40 cursor-not-allowed"
                                     : ""
