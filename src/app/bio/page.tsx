@@ -236,7 +236,7 @@ function BioContent() {
                         alt={banner.alternativeText || t.bannerAlt}
                         fill
                         priority
-                        style={{ objectFit: "cover" }}
+                        style={{ objectFit: "cover"}}
                     />
                 </div>
             )}
@@ -270,7 +270,7 @@ function BioContent() {
                                 src={bio.url}
                                 alt={t.portraitAlt}
                                 fill
-                                style={{ objectFit: "cover" }}
+                                style={{ objectFit: "cover"}}
                                 className="rounded-lg"
                             />
                         </div>
@@ -295,7 +295,7 @@ function BioContent() {
                                 src={concept.url}
                                 alt={t.conceptAlt}
                                 fill
-                                style={{ objectFit: "cover" }}
+                                style={{ objectFit: "cover", objectPosition: "bottom" }}
                                 className="rounded-lg"
                             />
                         </div>
