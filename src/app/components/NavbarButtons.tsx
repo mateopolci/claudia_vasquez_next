@@ -48,7 +48,7 @@ function NavbarButtons() {
                                 <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
                             </svg>
                         </Link>
-                        <ul className="py-2 child transition duration-300 lg:absolute top-full lg:w-72 bg-white lg:shadow-[-5px_15px_15px_rgba(0,0,0,0.1),15px_15px_15px_rgba(0,0,0,0.1)] lg:rounded-b">
+                        <ul className="py-2 child transition duration-300 lg:absolute top-full lg:min-w-[18rem] lg:w-fit bg-white lg:shadow-[-5px_15px_15px_rgba(0,0,0,0.1),15px_15px_15px_rgba(0,0,0,0.1)] lg:rounded-b lg:px-2">
                             {loading && (
                                 <li className="px-4 py-2">
                                     <div className="flex p-1">
@@ -71,7 +71,7 @@ function NavbarButtons() {
                                     <li key={category.id} className="px-4 py-2">
                                         <Link
                                             href={`/${category.name}`}
-                                            className="flex hover:bg-claudiapurple hover:text-claudiawhite p-1 transition duration-300 rounded-xs"
+                                            className="flex whitespace-nowrap hover:bg-claudiapurple hover:text-claudiawhite px-3 py-1 transition duration-300 rounded-xs w-full"
                                         >
                                             {category.name}
                                         </Link>
