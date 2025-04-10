@@ -223,10 +223,6 @@ function BioContent() {
     const { biography, art_concept, bio, concept } = bioData.data;
     const banner = bannerData?.data?.bannerBio;
 
-    const halfBiographyLength = Math.ceil(biography.length / 2);
-    const firstHalf = biography.slice(0, halfBiographyLength);
-    const secondHalf = biography.slice(halfBiographyLength);
-
     return (
         <div className="flex flex-col justify-between min-h-screen items-center">
             <Navbar />
@@ -260,7 +256,7 @@ function BioContent() {
 
                 <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-1">
-                        {firstHalf.map((paragraph, index) => (
+                        {biography.map((paragraph, index) => (
                             <FormattedParagraph
                                 key={index}
                                 paragraph={paragraph}
@@ -279,12 +275,6 @@ function BioContent() {
                             />
                         </div>
                     )}
-                </div>
-
-                <div className="mb-12 space-y-1">
-                    {secondHalf.map((paragraph, index) => (
-                        <FormattedParagraph key={index} paragraph={paragraph} />
-                    ))}
                 </div>
 
                 <div className="w-full 2/3 aspect-video mb-12 mx-auto">
