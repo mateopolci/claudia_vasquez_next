@@ -211,7 +211,7 @@ const LightboxModal = ({
                 </>
             )}
 
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center max-h-[90vh] overflow-y-auto py-4">
                 <div
                     className={`relative overflow-hidden ${
                         isLargeScreen
@@ -222,7 +222,7 @@ const LightboxModal = ({
                     } ${
                         isZoomed
                             ? "max-w-[95%] max-h-[95%]"
-                            : "max-w-[90%] max-h-[90%]"
+                            : "max-w-[90%] max-h-[80vh]"
                     }`}
                     ref={imageContainerRef}
                     onClick={(e) => {
@@ -247,57 +247,57 @@ const LightboxModal = ({
                                 : {}
                         }
                     />
+                </div>
 
-                    {!isZoomed && (
-                        <div
-                            className="bg-black/60 text-white p-4 absolute bottom-0 left-0 right-0 info-overlay cursor-default"
-                            onClick={(e) => {
-                                const target = e.target as HTMLElement;
-                                if (
-                                    !target.classList.contains("cursor-text") &&
-                                    !target.closest(".cursor-text")
-                                ) {
-                                    e.stopPropagation();
-                                }
-                            }}
-                        >
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <h3 className="text-lg font-semibold text-claudiawhite cursor-text">
-                                        {currentImage.name}
-                                    </h3>
-                                    <div className="flex flex-wrap gap-x-2 text-sm !text-claudiawhite">
-                                        {currentImage.code && (
-                                            <span className="cursor-text">
-                                                {currentImage.code}
-                                            </span>
-                                        )}
-                                    </div>
-                                </div>
-                                <div>
-                                    {currentImage.year && (
-                                        <span className="italic text-sm !text-claudiawhite cursor-text">
-                                            {currentImage.year}
+                {!isZoomed && (
+                    <div
+                        className="bg-black/60 text-white p-4 mt-2 w-full max-w-[90%] cursor-default"
+                        onClick={(e) => {
+                            const target = e.target as HTMLElement;
+                            if (
+                                !target.classList.contains("cursor-text") &&
+                                !target.closest(".cursor-text")
+                            ) {
+                                e.stopPropagation();
+                            }
+                        }}
+                    >
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <h3 className="text-lg font-semibold text-claudiawhite cursor-text">
+                                    {currentImage.name}
+                                </h3>
+                                <div className="flex flex-wrap gap-x-2 text-sm !text-claudiawhite">
+                                    {currentImage.code && (
+                                        <span className="cursor-text">
+                                            {currentImage.code}
                                         </span>
-                                    )}
-                                    {(currentImage.support ||
-                                        currentImage.size) && (
-                                        <p className="text-sm !text-claudiawhite cursor-text">
-                                            {currentImage.support}{" "}
-                                            {currentImage.support &&
-                                                currentImage.size &&
-                                                "-"}{" "}
-                                            {currentImage.size}
-                                        </p>
                                     )}
                                 </div>
                             </div>
-                            <p className="text-xs !text-claudiawhite mt-1 cursor-text">
-                                {index + 1} / {images.length}
-                            </p>
+                            <div>
+                                {currentImage.year && (
+                                    <span className="italic text-sm !text-claudiawhite cursor-text">
+                                        {currentImage.year}
+                                    </span>
+                                )}
+                                {(currentImage.support ||
+                                    currentImage.size) && (
+                                    <p className="text-sm !text-claudiawhite cursor-text">
+                                        {currentImage.support}{" "}
+                                        {currentImage.support &&
+                                            currentImage.size &&
+                                            "-"}{" "}
+                                        {currentImage.size}
+                                    </p>
+                                )}
+                            </div>
                         </div>
-                    )}
-                </div>
+                        <p className="text-xs !text-claudiawhite mt-1 cursor-text">
+                            {index + 1} / {images.length}
+                        </p>
+                    </div>
+                )}
 
                 {!isZoomed && (
                     <div className="lg:hidden flex justify-center gap-8 mt-4">
