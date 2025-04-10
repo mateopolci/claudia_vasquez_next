@@ -68,9 +68,9 @@ function Navbar() {
                         aria-label="Toggle menu"
                     >
                         {isMenuOpen ? (
-                            <X size={32} color="#000000" />
+                            <X size={32} color="#000000 !important" />
                         ) : (
-                            <Menu size={32} color="#000000" />
+                            <Menu size={32} color="#000000 !important" />
                         )}
                     </button>
                 </div>

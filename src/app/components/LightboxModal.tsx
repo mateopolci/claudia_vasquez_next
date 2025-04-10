@@ -244,10 +244,10 @@ const LightboxModal = ({
                         <div className="bg-black/60 text-white p-4 absolute bottom-0 left-0 right-0">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <h3 className="text-lg font-semibold">
+                                    <h3 className="text-lg font-semibold text-claudiawhite">
                                         {currentImage.name}
                                     </h3>
-                                    <div className="flex flex-wrap gap-x-2 text-sm text-gray-300">
+                                    <div className="flex flex-wrap gap-x-2 text-sm !text-claudiawhite">
                                         {currentImage.code && (
                                             <span>{currentImage.code}</span>
                                         )}
@@ -255,13 +255,13 @@ const LightboxModal = ({
                                 </div>
                                 <div>
                                     {currentImage.year && (
-                                        <span className="italic text-sm text-gray-300">
+                                        <span className="italic text-sm !text-claudiawhite">
                                             {currentImage.year}
                                         </span>
                                     )}
                                     {(currentImage.support ||
                                         currentImage.size) && (
-                                        <p className="text-sm text-gray-300">
+                                        <p className="text-sm !text-claudiawhite">
                                             {currentImage.support}{" "}
                                             {currentImage.support &&
                                                 currentImage.size &&
@@ -271,7 +271,7 @@ const LightboxModal = ({
                                     )}
                                 </div>
                             </div>
-                            <p className="text-xs text-gray-400 mt-1">
+                            <p className="text-xs !text-claudiawhite mt-1">
                                 {index + 1} / {images.length}
                             </p>
                         </div>
@@ -283,7 +283,7 @@ const LightboxModal = ({
                         <button
                             onClick={navigatePrev}
                             disabled={isFirstImage}
-                            className={`text-white p-2 rounded-full hover:bg-white/20 transition ${
+                            className={`!text-white p-2 rounded-full hover:bg-white/20 transition ${
                                 isFirstImage
                                     ? "opacity-40 cursor-not-allowed"
                                     : ""
@@ -321,7 +321,6 @@ const LightboxModal = ({
                                 width="32"
                                 height="32"
                                 viewBox="0 0 24 24"
-                                fill="none"
                                 stroke="currentColor"
                                 strokeWidth="2"
                                 strokeLinecap="round"
