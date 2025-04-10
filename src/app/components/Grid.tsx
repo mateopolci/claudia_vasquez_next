@@ -285,7 +285,7 @@ function Grid({ endpoint, title = "Galería" }: GridProps) {
                                             artwork.image?.alternativeText ||
                                             artwork.name
                                         }
-                                        className="object-cover group-hover:scale-110 transition duration-300"
+                                        className="object-cover group-hover:scale-110 transition duration-300 select-none"
                                         loading="lazy"
                                         fill
                                         sizes="(max-width: 500px) 90vw, 
