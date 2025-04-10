@@ -300,7 +300,7 @@ const LightboxModal = ({
                 )}
 
                 {!isZoomed && (
-                    <div className="lg:hidden flex justify-center gap-8 mt-4">
+                    <div className="lg:hidden fixed bottom-4 left-0 right-0 flex justify-center gap-8">
                         <button
                             onClick={navigatePrev}
                             disabled={isFirstImage}
@@ -342,6 +342,7 @@ const LightboxModal = ({
                                 width="32"
                                 height="32"
                                 viewBox="0 0 24 24"
+                                fill="none"
                                 stroke="currentColor"
                                 strokeWidth="2"
                                 strokeLinecap="round"
