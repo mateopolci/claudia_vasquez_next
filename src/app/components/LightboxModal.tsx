@@ -95,6 +95,14 @@ const LightboxModal = ({
     const handleImageClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!imageContainerRef.current || !isLargeScreen) return;
 
+        const target = e.target as HTMLElement;
+        if (
+            target.classList.contains("cursor-text") ||
+            target.closest(".cursor-text")
+        ) {
+            return;
+        }
+
         if (isZoomed) {
             setIsZoomed(false);
         } else {
@@ -226,7 +234,7 @@ const LightboxModal = ({
                     <img
                         src={currentImage.url}
                         alt={currentImage.alt || currentImage.name}
-                        className={`max-h-[80vh] max-w-full object-contain transition-transform duration-100 ${
+                        className={`max-h-[80vh] max-w-full object-contain transition-transform duration-100 select-none ${
                             isZoomed ? "scale-[2]" : ""
                         }`}
                         style={
@@ -241,27 +249,40 @@ const LightboxModal = ({
                     />
 
                     {!isZoomed && (
-                        <div className="bg-black/60 text-white p-4 absolute bottom-0 left-0 right-0">
+                        <div
+                            className="bg-black/60 text-white p-4 absolute bottom-0 left-0 right-0 info-overlay cursor-default"
+                            onClick={(e) => {
+                                const target = e.target as HTMLElement;
+                                if (
+                                    !target.classList.contains("cursor-text") &&
+                                    !target.closest(".cursor-text")
+                                ) {
+                                    e.stopPropagation();
+                                }
+                            }}
+                        >
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <h3 className="text-lg font-semibold text-claudiawhite">
+                                    <h3 className="text-lg font-semibold text-claudiawhite cursor-text">
                                         {currentImage.name}
                                     </h3>
                                     <div className="flex flex-wrap gap-x-2 text-sm !text-claudiawhite">
                                         {currentImage.code && (
-                                            <span>{currentImage.code}</span>
+                                            <span className="cursor-text">
+                                                {currentImage.code}
+                                            </span>
                                         )}
                                     </div>
                                 </div>
                                 <div>
                                     {currentImage.year && (
-                                        <span className="italic text-sm !text-claudiawhite">
+                                        <span className="italic text-sm !text-claudiawhite cursor-text">
                                             {currentImage.year}
                                         </span>
                                     )}
                                     {(currentImage.support ||
                                         currentImage.size) && (
-                                        <p className="text-sm !text-claudiawhite">
+                                        <p className="text-sm !text-claudiawhite cursor-text">
                                             {currentImage.support}{" "}
                                             {currentImage.support &&
                                                 currentImage.size &&
@@ -271,7 +292,7 @@ const LightboxModal = ({
                                     )}
                                 </div>
                             </div>
-                            <p className="text-xs !text-claudiawhite mt-1">
+                            <p className="text-xs !text-claudiawhite mt-1 cursor-text">
                                 {index + 1} / {images.length}
                             </p>
                         </div>
