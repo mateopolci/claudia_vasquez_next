@@ -161,58 +161,60 @@ const LightboxModal = ({
 
             {!isZoomed && (
                 <>
-                    <div className="hidden lg:block absolute inset-0 pointer-events-none">
-                        {!isFirstImage && (
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    navigatePrev();
-                                }}
-                                className="absolute left-4 text-white p-2 rounded-full hover:bg-white/20 transition pointer-events-auto"
-                                aria-label="Previous image"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="36"
-                                    height="36"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    className="lucide lucide-chevron-left"
+                    <div className=" lg:block absolute inset-0 pointer-events-none flex items-center">
+                        <div className="relative w-full h-full flex items-center justify-between">
+                            {!isFirstImage && (
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        navigatePrev();
+                                    }}
+                                    className="absolute left-4 top-1/2 -translate-y-1/2 text-white p-2 rounded-full hover:bg-white/20 transition pointer-events-auto"
+                                    aria-label="Previous image"
                                 >
-                                    <path d="m15 18-6-6 6-6"></path>
-                                </svg>
-                            </button>
-                        )}
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="36"
+                                        height="36"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        className="lucide lucide-chevron-left"
+                                    >
+                                        <path d="m15 18-6-6 6-6"></path>
+                                    </svg>
+                                </button>
+                            )}
 
-                        {!isLastImage && (
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    navigateNext();
-                                }}
-                                className="absolute right-4 text-white p-2 rounded-full hover:bg-white/20 transition pointer-events-auto"
-                                aria-label="Next image"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="36"
-                                    height="36"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    className="lucide lucide-chevron-right"
+                            {!isLastImage && (
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        navigateNext();
+                                    }}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white p-2 rounded-full hover:bg-white/20 transition pointer-events-auto"
+                                    aria-label="Next image"
                                 >
-                                    <path d="m9 18 6-6-6-6"></path>
-                                </svg>
-                            </button>
-                        )}
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="36"
+                                        height="36"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        className="lucide lucide-chevron-right"
+                                    >
+                                        <path d="m9 18 6-6-6-6"></path>
+                                    </svg>
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </>
             )}
@@ -313,7 +315,7 @@ const LightboxModal = ({
                                 navigatePrev();
                             }}
                             disabled={isFirstImage}
-                            className={`!text-white p-2 rounded-full hover:bg-white/20 transition pointer-events-auto ${
+                            className={`!text-white p-2 rounded-full hover:bg-white/20 transition pointer-events-auto bg-black/40 ${
                                 isFirstImage
                                     ? "opacity-40 cursor-not-allowed"
                                     : ""
@@ -342,7 +344,7 @@ const LightboxModal = ({
                                 navigateNext();
                             }}
                             disabled={isLastImage}
-                            className={`text-white p-2 rounded-full hover:bg-white/20 transition pointer-events-auto ${
+                            className={`text-white p-2 rounded-full hover:bg-white/20 transition pointer-events-auto bg-black/40 ${
                                 isLastImage
                                     ? "opacity-40 cursor-not-allowed"
                                     : ""
