@@ -25,7 +25,7 @@ function Footer() {
                 <div className="flex justify-center items-center md:w-1/3">
                     <Instagram className="footerIcons md:order-none order-first min-w-[20px]" />
                     <p className="ml-2 whitespace-nowrap text-xs sm:text-sm md:text-base">
-                        claudiavasquez.art
+                         clauvasquez.art
                     </p>
                 </div>
             </div>
